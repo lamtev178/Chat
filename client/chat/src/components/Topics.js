@@ -1,14 +1,12 @@
 import React, {useState} from 'react'
 import {ListGroupItem, ListGroupItemHeading, ListGroupItemText, ListGroup} from 'reactstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
 
 function Topics(){
-  const [topics, setTopics] = useState([
-    {id:1, score:4 , title:"Ситуация на украине", description:"Здесь будет актуальная информация о ситуации на украине"},
-    {id:2, score:14 , title:"Фондовый рынок", description:"Когда откроют российскую биржу?))))"},
-    {id:3, score:24 , title:"Мемы", description:"Лол, кек"},
-    {id:4, score:41 , title:"Помощь студентам", description:"Помогите молодым"},
-  ])
+  const dispatch = useDispatch()
+  const topic = useSelector(state => state.topics)
+  const [topics, setTopics] = useState(topic)
   return(
     <div className='container'>
       <ListGroup>

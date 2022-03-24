@@ -3,7 +3,8 @@ import {Row, Col} from 'reactstrap'
 
 function Footer(){
   return(
-    <Row style={{background:"#141414", color:"white", paddingTop:"20px", margin:'0'}}>
+    <div style={{background:"#152c4c"}}>
+    <Row style={{color:"white", paddingTop:"40px", margin:'auto'}} className="container">
       <Col >
         <h3>Links</h3>
           {/* <ul classNameName="list">
@@ -41,6 +42,7 @@ function Footer(){
 </svg>facebook</h4></a>
       </Col>
     </Row>
+    </div>
   )
 }
 export default Footer
