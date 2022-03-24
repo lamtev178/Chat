@@ -3,7 +3,7 @@ import {Row, Col} from 'reactstrap'
 
 function Footer(){
   return(
-    <div style={{background:"#152c4c"}}>
+    <div style={{background:"#152c4c", }} className="mt-5">
     <Row style={{color:"white", paddingTop:"40px", margin:'auto'}} className="container">
       <Col >
         <h3>Links</h3>

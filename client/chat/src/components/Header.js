@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
-import {Navbar, Nav, NavItem, NavLink, Collapse, NavbarText, NavbarToggler, InputGroup, Input, Button} from 'reactstrap'
+import {Navbar, Nav, NavItem, Collapse, NavbarText, NavbarToggler, InputGroup, Input, Button} from 'reactstrap'
+import {NavLink} from "react-router-dom";
 import { FaSearch } from 'react-icons/fa';
 
 function Header(){
   const [navOpen, setNavOpen] = useState(false)
   return(
-  <div className='container'>
+  <div className='container mb-5'>
   <Navbar
     color="light"
     expand="md"
@@ -27,18 +28,18 @@ function Header(){
           </InputGroup>
         </NavItem>
         <NavItem>
-          <NavLink href="/components/">
+          <NavLink to="/">
             Темы
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="https://github.com/reactstrap/reactstrap">
+          <NavLink to="/Messages">
             Сообщения
           </NavLink>
         </NavItem>
       </Nav>
       <NavbarText>
-          <NavLink href="https://github.com/reactstrap/reactstrap">
+          <NavLink to="/">
             Профиль
           </NavLink>
       </NavbarText>

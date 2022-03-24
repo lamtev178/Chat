@@ -2,3 +2,11 @@
   color: white;
   text-decoration: none;
 }
+.nav-item a,
+.navbar-text a {
+  text-decoration: none;
+  color: rgb(152, 154, 161);
+}
+.navbar-nav li {
+  margin-left: 15px;
+}
