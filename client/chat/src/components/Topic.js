@@ -2,10 +2,12 @@ import React from "react";
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import {Form, Input, FormGroup, Label, Button} from 'reactstrap'
+import { BiUser } from 'react-icons/bi';
 
 function Topic() {
   const {topicID} = useParams() 
   const topic = useSelector(state=>state.topics[topicID-1])
+  console.log(topic);
   function handleSubmitMessage(event){
     event.preventDefault()
     let date = (new Date() + "").split(' ')
@@ -20,6 +22,18 @@ function Topic() {
       <h4>
         {topic.description}
       </h4>
+      {topic.commentsList.map( comment => {
+        return(
+        <div key={Date.now()} className="comments">
+          <p>{comment.comment}</p>
+          <div className="comments-info">
+            <p>
+              <BiUser />{comment.author}</p>
+            <p>{comment.date}</p>
+          </div>
+        </div>
+        )
+    })}
       <Form onSubmit={handleSubmitMessage} style={{paddingTop:'50px'}}>
         <FormGroup>
           <Label for="message">
