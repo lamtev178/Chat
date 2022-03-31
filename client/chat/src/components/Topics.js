@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
-import {ListGroupItem, ListGroupItemHeading, ListGroupItemText, ListGroup} from 'reactstrap'
+import React from 'react'
+import {ListGroupItem, ListGroupItemHeading, ListGroupItemText, ListGroup, Button, Offcanvas, OffcanvasHeader, OffcanvasBody} from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
 import { BiChat } from 'react-icons/bi';
+import MySider from './MySider'
 
 function Topics(){
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ function Topics(){
           )
         })}
       </ListGroup>
+      <MySider />
     </div>
   )
 }
