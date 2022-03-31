@@ -2,10 +2,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const PORT = process.env.PORT || '8000'
 const authRouter = require('./routes/authRouter')
+const topicsRouter = require('./routes/topicsRouter')
 const app = express()
 
 app.use(express.json())
 app.use('/auth',authRouter)
+app.use('/alltopics',topicsRouter)
 
 const start = async () =>{
   await mongoose.connect('mongodb+srv://lamtev178:qwerty123@cluster0.u8xgn.mongodb.net/Chat?retryWrites=true&w=majority')
