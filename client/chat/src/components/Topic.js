@@ -3,17 +3,30 @@ import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import {Form, Input, FormGroup, Label, Button} from 'reactstrap'
 import { BiUser } from 'react-icons/bi';
+const axios = require('axios').default;
 
 function Topic() {
+  const dispatch = useDispatch()
   const {topicID} = useParams() 
   const topic = useSelector(state => state.topics.filter(t => t._id === topicID))[0]
   const comments = useSelector(state => state.comments.filter(c => c.postId === topicID))
-  function handleSubmitMessage(event){
+  const login = useSelector(state => state.isAuth.login)
+
+  async function handleSubmitMessage(event){
     event.preventDefault()
-    let date = (new Date() + "").split(' ')
-    console.log(event.target[0].value);
-    console.log(date[2], date[1], date[4].slice(0,5));
+    try {
+      const response = await axios.post('http://localhost:8000/alltopics/comment', {
+        author:login,
+        postId:topicID,
+        message:event.target[0].value
+      });
+      console.log(response);
+      dispatch({type:"POST_COMMENTS", payload:{author:login, postId:topicID, message:event.target[0].value, _id:response.data.data._id}})
+    } catch (error) {
+      alert('Ошибка',error.message);
+    }
   }
+
   return (
     <div className="mt-5">
       <h1>

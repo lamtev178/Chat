@@ -1,13 +1,30 @@
 import React, {useState} from "react";
 import {Button, Offcanvas, OffcanvasHeader, OffcanvasBody, Form, Input, Label, FormGroup} from 'reactstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { BiX } from 'react-icons/bi';
+const axios = require('axios').default;
 
 function MySider(){
+  const dispatch = useDispatch()
+  const author = useSelector(state => state.isAuth.login)
+  console.log(author);
   const [toggleSider,setToggleSider] = useState(false)
-  function handleSubmitTopic(event){
+  async function handleSubmitTopic(event){
     event.preventDefault()
-    console.log(event.target[0].value, event.target[1].value);
-    setToggleSider(false)
+    try {
+      const response = await axios.post('http://localhost:8000/alltopics/topic',{
+        title: event.target[0].value,
+        description: event.target[1].value,
+        author: author
+      })
+      console.log(response);
+      dispatch({type:"POST_TOPICS", payload: {title:event.target[0].value, description: event.target[1].value, author: author, _id:response.data.data._id}})
+      setToggleSider(false)
+    }
+    catch (error) {
+      alert('Ошибка',error.message);
+    }
+
   }
   return(
     <div>

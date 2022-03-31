@@ -5,15 +5,15 @@ const Topic = require('../models/Topic')
 const Comment = require('../models/Comment')
 
 router.post('/topic', [
-  check('title','Логин не может быть пустым').notEmpty(),
-  check('description','Логин не может быть пустым').notEmpty()
+  check('title','Заголовок не может быть пустым').notEmpty(),
+  check('description','Описание не может быть пустым').notEmpty()
 ], async (req,res)=>{
     try{
       const topic = req.body
       const newTopic = new Topic(topic)
       await newTopic.save()
-      .then(()=>
-        res.json('complete')
+      .then(data=>
+        res.json({message:'complete', data:data})
       )
     }
     catch(e){
@@ -28,8 +28,8 @@ router.post('/comment', [
       const comment = req.body
       const newComment = new Comment(comment)
       await newComment.save()
-      .then(()=>
-        res.json('complete')
+      .then(data=>
+        res.json({message:'complete', data:data})
       )
     }
     catch(e){

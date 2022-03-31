@@ -9,10 +9,23 @@ function App() {
     async function GetTopics(){
     try {
       const response = await axios.get('http://localhost:8000/alltopics/topic');
-      console.log(response);
       dispatch({type: "GET_TOPICS", payload:response.data}) 
+      console.log(response);
     } catch (error) {
       console.error(error);
+    }
+  }
+  async function Login(e){
+    e.preventDefault()
+    try {
+      const response = await axios.post('http://localhost:8000/auth/login', {
+        login:e.target[0].value,
+        password:e.target[1].value
+      });
+      console.log(response);
+      dispatch({type:"LOGIN_IN", payload:response.data.login})
+    } catch (error) {
+      alert('Ошибка',error.message);
     }
   }
     async function GetComments(){
@@ -31,13 +44,10 @@ function App() {
   ,[])
   const dispatch= useDispatch()
   const isAuth = useSelector(state => state.isAuth)
-  function onSubmit(e){
-    e.preventDefault()
-    console.log(e.target[0].value, e.target[1].value);
-  }
+
   return (
     <>
-      {isAuth.isAuth ? <Main /> : <LoginForm onSubmit={() => dispatch({type:"LOGIN_IN"}) }/>}
+      {isAuth.isAuth ? <Main /> : <LoginForm onSubmit={Login}/>}
     </>
   );
 }

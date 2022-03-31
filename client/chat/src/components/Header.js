@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import {Navbar, Nav, NavItem, Collapse, NavbarText, NavbarToggler, InputGroup, Input, Button} from 'reactstrap'
+import { useSelector } from 'react-redux';
 import {NavLink} from "react-router-dom";
 import { FaSearch } from 'react-icons/fa';
 
 function Header(){
+  const login = useSelector(store => store.isAuth.login)
   const [navOpen, setNavOpen] = useState(false)
   return(
   <div className='container mb-5'>
@@ -39,9 +41,7 @@ function Header(){
         </NavItem>
       </Nav>
       <NavbarText>
-          <NavLink to="/">
-            Профиль
-          </NavLink>
+        {login}
       </NavbarText>
     </Collapse>
   </Navbar>
