@@ -6,8 +6,8 @@ import { BiUser } from 'react-icons/bi';
 
 function Topic() {
   const {topicID} = useParams() 
-  const topic = useSelector(state=>state.topics[topicID-1])
-  console.log(topic);
+  const topic = useSelector(state => state.topics.filter(t => t._id === topicID))[0]
+  const comments = useSelector(state => state.comments.filter(c => c.postId === topicID))
   function handleSubmitMessage(event){
     event.preventDefault()
     let date = (new Date() + "").split(' ')
@@ -22,14 +22,14 @@ function Topic() {
       <h4>
         {topic.description}
       </h4>
-      {topic.commentsList.map( comment => {
+      {comments.map( comment => {
         return(
-        <div key={Date.now()} className="comments">
-          <p>{comment.comment}</p>
+        <div key={comment._id} className="comments">
+          <p>{comment.message}</p>
           <div className="comments-info">
             <p>
               <BiUser />{comment.author}</p>
-            <p>{comment.date}</p>
+            {/* <p>{comment.date}</p> */}
           </div>
         </div>
         )
