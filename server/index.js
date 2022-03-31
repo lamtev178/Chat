@@ -3,8 +3,9 @@ const mongoose = require('mongoose')
 const PORT = process.env.PORT || '8000'
 const authRouter = require('./routes/authRouter')
 const topicsRouter = require('./routes/topicsRouter')
+const cors = require('cors')
 const app = express()
-
+app.use(cors())
 app.use(express.json())
 app.use('/auth',authRouter)
 app.use('/alltopics',topicsRouter)
