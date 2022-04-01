@@ -4,6 +4,8 @@ const {validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
 const {secret} = require('./config')
+const uuid = require('uuid')
+const sendMailActivation = require('./sendMailActivation')
 
 const generateAccessToken = (id, roles)=>{
   const payload = {
@@ -19,14 +21,20 @@ class authController{
       if(!error.isEmpty()){
         return res.status(400).json({message:'Ошибка при регистрации',error})
       }
-      const {login, password} = req.body
+      const {login, password, email} = req.body
+      const log = await User.findOne({email})
+      if(log){
+        throw new Error ('Этот email уже используется')
+      }
       const candidate = await User.findOne({login})
       if(candidate){
-        res.status(400).json({message:'Пользователь с таким именем уже существует'})
+        throw new Error ('Пользователь с таким именем уже существует')
       }
       const hashPassword = bcrypt.hashSync(password, 7);
-      const userRole = await Role.findOne({value:"ADMIN"})
-      const user = new User({login, password:hashPassword, roles:[userRole.value]})
+      const userRole = await Role.findOne({value:"USER"})
+      const activationLink = uuid.v4()
+      const user = new User({email:email, login, password:hashPassword, roles:[userRole.value], activationLink : activationLink})
+      await sendMailActivation.sendActionLink(email, `http://localhost:8000/auth/activation/${activationLink}`)
       await user.save()
       return res.json({message:"Complete"})
     }
@@ -41,6 +49,9 @@ class authController{
       const user = await User.findOne({login})
       if(!user){
         return res.satatus(400).json({message:`Пользователя ${login} не существует`})
+      }
+      if(!user.isActivated){
+        return res.satatus(400).json({message:`Аккаунт не активирован`})
       }
       const validPassword = bcrypt.compareSync(password,user.password)
       if(!validPassword){
@@ -64,6 +75,23 @@ class authController{
       res.status(400)
     }
   }
+  async activation(req, res){
+    try{
+      const activationLink = req.params.link
+      const user = await User.findOne({activationLink:activationLink})
+      if(!user){
+        throw Error('User not found')
+      }
+      user.isActivated = true;
+      await user.save()
+      return res.redirect('http://localhost:3000/')
+    }
+    catch(e){
+      console.log(e);
+      res.status(400)
+    }
+  }
+  
 }
 
 module.exports = new authController()
