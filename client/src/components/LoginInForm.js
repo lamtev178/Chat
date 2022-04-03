@@ -1,7 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap'
+import MyModal from './MyModal'
 
 function LoginForm({onSubmit}){
+  const [toggle, setToggle] = useState(false)
+  function toggleModal(){
+    setToggle(!toggle)
+  }
   return(
   <div className='container mt-5'>
     <Form onSubmit={onSubmit}>
@@ -28,10 +33,11 @@ function LoginForm({onSubmit}){
       <Button color='primary' type='submit'>
         Login In
       </Button>
-      {/* <Button className='ms-3' color='primary' onClick={sub}>
+      <Button className='ms-3' color='primary' onClick={toggleModal}>
         Sign In
-      </Button> */}
+      </Button>
     </Form>
+    <MyModal toggleModal={toggleModal} toggle={toggle}/>
   </div>
   )
 }
