@@ -45,23 +45,28 @@ class authController{
   }
   async login(req, res){
     try{
+      const error = validationResult(req)
+      console.log(error);
+      if(!error.isEmpty()){
+        return res.status(400).json(error)
+      }
       const {login, password} = req.body
       const user = await User.findOne({login})
+      console.log(user);
       if(!user){
-        return res.satatus(400).json({message:`Пользователя ${login} не существует`})
+        return res.status(400).json({message:`Пользователя ${login} не существует`})
       }
       if(!user.isActivated){
-        return res.satatus(400).json({message:`Аккаунт не активирован`})
+        return res.status(400).json({message:`Аккаунт не активирован`})
       }
       const validPassword = bcrypt.compareSync(password,user.password)
       if(!validPassword){
-        return res.satatus(400).json({message:`Введен неверный пароль`})
+        return res.status(400).json({message:`Введен неверный пароль`})
       }
       const token = generateAccessToken(user._id,user.roles)
       return res.json({token, login})
     }
     catch(e){
-      console.log(e);
       res.status(400).json({message:'login error'})
     }
   }

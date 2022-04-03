@@ -1,5 +1,6 @@
 import React from 'react';
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input} from 'reactstrap'
+import { BiX } from 'react-icons/bi';
 const axios = require('axios');
 
 function MyModal({toggleModal, toggle}){
@@ -14,15 +15,20 @@ function MyModal({toggleModal, toggle}){
     toggleModal()
     alert('На вашу почту отправлено письмо с подтверждением')
     } catch (error) {
-      alert('Ошибка',error.message);
+      let err = ''
+      error.response.data.message ? 
+      alert(error.response.data.message) : 
+      (error.response.data.errors.map(er => err += er.msg))
+      alert(err)
     }
   }
   return(
     <Modal
     isOpen={toggle}
   >
-    <ModalHeader >
+    <ModalHeader>
       Регистрация
+      <BiX style={{height:'45px', width:'45px', cursor:'pointer', marginLeft:'300px'}} onClick={()=>toggleModal()}/>
     </ModalHeader>
     <Form onSubmit={registration}>
       <ModalBody>

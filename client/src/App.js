@@ -12,12 +12,13 @@ function App() {
       dispatch({type: "GET_TOPICS", payload:response.data}) 
       console.log(response);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }
   async function Login(e){
     e.preventDefault()
     try {
+      console.log(e.target[0].value, e.target[1].value);
       const response = await axios.post('http://localhost:8000/auth/login', {
         login:e.target[0].value,
         password:e.target[1].value
@@ -25,7 +26,11 @@ function App() {
       console.log(response);
       dispatch({type:"LOGIN_IN", payload:response.data.login})
     } catch (error) {
-      alert('Ошибка',error.message);
+      let err = ''
+      error.response.data.message ? 
+      alert(error.response.data.message) : 
+      (error.response.data.errors.map(er => err += er.msg))
+      alert(err)
     }
   }
     async function GetComments(){
