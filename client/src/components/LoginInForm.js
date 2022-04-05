@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import MyInput from './UI/Input/MyInput'
 import MyButton from './UI/Button/MyButton'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Modal from './Modal'
 const axios = require('axios').default;
 

@@ -6,6 +6,16 @@ import Footer from './Footer'
 const axios = require('axios').default;
 
 function Main(){
+    async function getUsers(){
+    try{
+      const response = await axios.get('http://localhost:8000/auth/users')
+      dispatch({type:"GET_USERS", payload: response.data})
+      console.log(response);
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
     async function GetTopics(){
     try {
       const response = await axios.get('http://localhost:8000/alltopics/topic');
@@ -24,9 +34,10 @@ function Main(){
       console.error(error);
     }
   }
-  useEffect(async ()=>{
+  useEffect( ()=>{
     GetComments()
     GetTopics()
+    getUsers()
   }
   ,[])
   const dispatch= useDispatch()

@@ -42,7 +42,7 @@ function Topic() {
       </h4>
       {comments.map( comment => {
         return(
-          <div key={comment._id} className="topic">
+          <div key={comment._id} className="box">
             <p style={{wordBreak: "break-all", fontSize:'20px'}}>{comment.message}</p>
             <div className="comments-info">
               <p>

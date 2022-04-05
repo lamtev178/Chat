@@ -12,7 +12,7 @@ function Topics(){
       {topics.map(topic => {
         return (
           <Link to={`/${topic._id}`} key={topic._id} style={{textDecoration:'none'}}>
-            <div className="topic topicDark">
+            <div className="box topicDark">
               <h3>{topic.title}</h3>
               <div className="comments-info">
                 <p style={{wordBreak: "break-all"}}>{topic.description}</p>
