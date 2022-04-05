@@ -1,5 +1,4 @@
 import React from 'react'
-import {ListGroupItem, ListGroupItemHeading, ListGroupItemText, ListGroup} from 'reactstrap'
 import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
 import { BiChat } from 'react-icons/bi';
@@ -9,28 +8,22 @@ function Topics(){
   const topics = useSelector(action => action.topics)
   const comments = useSelector(action => action.comments)
   return(
-    <div className='container'>
-      <ListGroup>
-        {topics.map(topic => {
-          return(
+    <>
+      {topics.map(topic => {
+        return (
           <Link to={`/${topic._id}`} key={topic._id} style={{textDecoration:'none'}}>
-            <ListGroupItem>
-              <ListGroupItemHeading>
-                {topic.title}
-              </ListGroupItemHeading>
-              <ListGroupItemText>
-                {topic.description}
-              </ListGroupItemText>
-              <div className='topic-info'>
-                <p><BiChat />Обсуждения : {comments.filter(c => topic._id === c.postId).length}</p>
-              </div>
-            </ListGroupItem>
+            <div className="topic">
+              <h3>{topic.title}</h3>
+              <div className="comments-info">
+                <p style={{wordBreak: "break-all"}}>{topic.description}</p>
+                <p style={{minWidth:'180px'}}><BiChat />Обсуждения : {comments.filter(c => topic._id === c.postId).length}</p>
+              </div>  
+            </div>
           </Link>
-          )
-        })}
-      </ListGroup>
+        )
+      })}
       <MySider />
-    </div>
+    </>
   )
 }
 export default Topics
