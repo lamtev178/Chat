@@ -22,13 +22,13 @@ class authController{
         return res.status(400).json({message:'Ошибка при регистрации',error})
       }
       const {login, password, email} = req.body
-      const log = await User.findOne({email})
-      if(log){
-        throw new Error ('Этот email уже используется')
+      const mail = await User.findOne({email})
+      if(mail){
+        return res.status(400).json({message:`Почта  ${mail} уже используется`})
       }
       const candidate = await User.findOne({login})
       if(candidate){
-        throw new Error ('Пользователь с таким именем уже существует')
+        return res.status(400).json({message:`Логин ${log} уже используется`})
       }
       const hashPassword = bcrypt.hashSync(password, 7);
       const userRole = await Role.findOne({value:"USER"})
