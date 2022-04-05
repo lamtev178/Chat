@@ -1,6 +1,8 @@
 import React from 'react'
 import Topics from './Topics'
 import Messages from './Messages'
+import Account from './Account'
+import Friends from './Friends'
 import Topic from './Topic'
 import {Routes, Route} from 'react-router'
 
@@ -9,6 +11,8 @@ function Content(){
     <Routes>
       <Route path='/' element={<Topics />} />
       <Route path='/Messages' element={<Messages />} />
+      <Route path='/Account' element={<Account />} />
+      <Route path='/Friends' element={<Friends />} />
       <Route path='/:topicID' element={<Topic />} />
     </Routes>
   )

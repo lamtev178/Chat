@@ -4,7 +4,7 @@ import {IoLogoGithub} from 'react-icons/io'
 
 function Footer(){
   return(
-    <div style={{background:"#152c4c", }} className="mt-5">
+  <div className="mt-5 footer">
     <Row style={{color:"white", paddingTop:"40px", margin:'auto'}}>
       <Col>
         <h3>

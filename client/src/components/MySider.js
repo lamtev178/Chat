@@ -9,7 +9,7 @@ function MySider(){
   const [theme, setTheme] = useState('')
   const [message, setMessage] = useState('')
   const dispatch = useDispatch()
-  const author = useSelector(state => state.isAuth.login)
+  const author = useSelector(state => state.isAuth.user.login)
   const [toggleSider,setToggleSider] = useState(false)
   async function handleSubmitTopic(event){
     event.preventDefault()
@@ -22,6 +22,8 @@ function MySider(){
       console.log(response);
       dispatch({type:"POST_TOPICS", payload: {title:theme, description: message, author: author, _id:response.data.data._id}})
       setToggleSider(false)
+      setMessage('')
+      setTheme('')
     }
     catch (error) {
       alert('Ошибка',error.message);

@@ -12,8 +12,7 @@ function Topic() {
   const {topicID} = useParams() 
   const topic = useSelector(state => state.topics.filter(t => t._id === topicID))[0]
   const comments = useSelector(state => state.comments.filter(c => c.postId === topicID))
-  const login = useSelector(state => state.isAuth.login)
-  console.log(comment);
+  const login = useSelector(state => state.isAuth.user.login)
   async function handleSubmitMessage(event){
     event.preventDefault()
     try {

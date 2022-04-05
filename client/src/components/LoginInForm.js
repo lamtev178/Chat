@@ -18,7 +18,7 @@ function LoginForm(){
         password:password
       });
       console.log(response);
-      dispatch({type:"LOGIN_IN", payload:response.data.login})
+      dispatch({type:"LOGIN_IN", payload:response.data})
     } catch (error) {
       let err = ''
       error.response.data.message ? 

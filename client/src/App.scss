@@ -1,4 +1,4 @@
-$blue : #7dc2ff;
+$blue : #0763b5;
 $lightblue : #8cbbff;
 $darkblue : #094a83;
 .col a {
@@ -73,14 +73,55 @@ $darkblue : #094a83;
   bottom:40px;
 }
 .topic{
-  color : black;
+  color : white;
   padding:25px;
   background-color: $blue;
   border-radius: 0.25rem;
   margin: 10px;
+  transition: linear 0.2s;
+}
+.topicDark:hover {
+  box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5),
+    -2px -2px 10px rgba(255, 255, 255, 0.5);
+}
+.navHeader .Container {
+  display:flex;
+  justify-content: space-around;
+}
+.navHeader{
+  width: 100%;
+  height: 100px;
+}
+.navHeader a:hover::after {
+  transform: translateX(0);
+}
+.navHeader a::after{
+  transform:translateX(-101%);
+  content: "";
+  display: block;
+  width: 100%;
+  height:3px;
+  background-color:white;
+  position: relative;
+  bottom:0;
+  left:0;
+  transition:0.2s linear;
+}
+.navHeader a{
+  overflow:hidden;
+  color:white;
+  font-size: 30px;
+  text-decoration: none;
+  padding-top: 30px;
+}
+.navHeader a:hover {
+  color: white;
 }
 .Mt-5{
   margin-top: 3rem !important;
+}
+.footer, .navHeader{
+  background-color: #152c4c;
 }
 @media (min-width: 576px) {
   .Container {
