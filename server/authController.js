@@ -80,6 +80,20 @@ class authController{
       res.status(400)
     }
   }
+  async addSub(req, res){
+    try{
+      const {login, subscription} = req.body
+      const user = await User.findOne({login: login})
+      const userSub = await User.findOne({login : subscription})
+      user.subscriptions = [...user.subscriptions, userSub.login]
+      await user.save()
+      res.json('Complete')
+    }
+    catch(e){
+      console.log(e);
+      res.status(400)
+    }
+  }
   async activation(req, res){
     try{
       const activationLink = req.params.link

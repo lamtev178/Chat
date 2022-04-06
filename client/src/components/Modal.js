@@ -8,7 +8,6 @@ function Modal({toggleModal, toggle, setToggle}){
   const [password, setPassword] = useState('') 
   async function registration(e){
     e.preventDefault();
-    console.log(login, mail, password);
     try {
     await axios.post('http://localhost:8000/auth/registration/',{
       login:login,

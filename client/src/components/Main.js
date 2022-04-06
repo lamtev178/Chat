@@ -6,7 +6,7 @@ import Footer from './Footer'
 const axios = require('axios').default;
 
 function Main(){
-  async function getUpdates(){
+  function getUpdates(){
     getUsers()
     GetTopics()
     GetComments()
@@ -41,9 +41,7 @@ function Main(){
   }
   useEffect( ()=>{
     setInterval(() => getUpdates(), 100000)
-    GetComments()
-    GetTopics()
-    getUsers()
+    getUpdates()
   }
   ,[])
   const dispatch= useDispatch()

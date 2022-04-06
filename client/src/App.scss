@@ -17,6 +17,10 @@ $darkgray : #6e757e;
   background-color:#fff;
   color:black;
 }
+.justifyBetween{
+  display: flex;
+  justify-content:space-between;
+}
 .col a {
   color: white;
   text-decoration: none;
