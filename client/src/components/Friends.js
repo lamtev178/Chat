@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
+import {Link} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import MyInput from './UI/Input/MyInput'
 import {ThemeContext} from '../App'
@@ -25,15 +26,17 @@ function Friends(){
       { !search ? ( subscriptions.length != 0 ?
       subscriptions.map(user =>{
         return(
-          <div key={user._id} className="box">{user.name}</div>
+          <div key={user._id} className={theme ? "box-dark box-darkHover" : "box-light box-lightHover"}>{user.name}</div>
         )
       }) :       
       <h5 style ={{marginTop:'30px'}}>Список ваших подписок пуст.</h5>) : 
       login.map(user =>{
         return(
-          <div key={user._id} className='box'>
-            <h2>{user.login}</h2>
-          </div>
+          <Link to={`/users/${user.login}`} key={user._id} style={{textDecoration:'none'}}>
+            <div key={user._id} className={theme ? "box-dark box-darkHover" : "box-light box-lightHover"}>
+              <h2>{user.login}</h2>
+            </div>
+          </Link>
         )
       })
       }

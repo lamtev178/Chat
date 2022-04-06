@@ -31,14 +31,13 @@ function LoginForm(){
     if(localStorage.user){
       Login(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1])
     }
-    console.log(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1]);
   }, [])
 
   function toggleModal(){
     setToggle(!toggle)
   }
   return(
-  <div className="Container Mt-5">
+  <div className="Container">
     <MyInput dark type='text' value={login} onChange={(e)=>{setLogin(e.target.value)}} title='Login'/>
     <MyInput dark type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} title='Password'/>
     <div style={{marginTop:'20px', display:'flex', justifyContent:'space-between'}}>

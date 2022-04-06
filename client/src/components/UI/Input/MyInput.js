@@ -4,7 +4,7 @@ import classes from './MyInput.module.css'
 function MyInput({title, type, value, dark, onChange,...props}){
   return(
     <>
-    <h4 style={{marginTop: "15px"}}>{title}</h4>
+    <h4 >{title}</h4>
     {props.textarea ? 
     <textarea 
       style={props.style} 

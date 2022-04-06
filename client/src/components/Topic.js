@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react";
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import MyInput from './UI/Input/MyInput'
 import MyButton from './UI/Button/MyButton'
@@ -48,7 +48,9 @@ function Topic() {
             <p style={{wordBreak: "break-all", fontSize:'20px'}}>{comment.message}</p>
             <div className="comments-info">
               <p>
-                <BiUser />{comment.author}
+                <Link to={`/users/${comment.author}`} style={{textDecoration:'none'}}>
+                  <BiUser />{comment.author}
+                </Link>
               </p>
               <p>{comment.date}</p>
             </div>

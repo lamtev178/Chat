@@ -11,7 +11,7 @@ function Content(){
     <Routes>
       <Route path='/' element={<Topics />} />
       <Route path='/Messages' element={<Messages />} />
-      <Route path='/Account' element={<Account />} />
+      <Route path='/users/:login' element={<Account />} />
       <Route path='/Friends' element={<Friends />} />
       <Route path='/:topicID' element={<Topic />} />
     </Routes>

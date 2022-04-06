@@ -6,6 +6,11 @@ import Footer from './Footer'
 const axios = require('axios').default;
 
 function Main(){
+  async function getUpdates(){
+    getUsers()
+    GetTopics()
+    GetComments()
+  }
     async function getUsers(){
     try{
       const response = await axios.get('http://localhost:8000/auth/users')
@@ -35,6 +40,7 @@ function Main(){
     }
   }
   useEffect( ()=>{
+    setInterval(() => getUpdates(), 100000)
     GetComments()
     GetTopics()
     getUsers()

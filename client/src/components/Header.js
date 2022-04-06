@@ -1,11 +1,12 @@
 import React, {useState, useContext} from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {NavLink} from "react-router-dom";
 import { BiExit } from 'react-icons/bi';
 import {ThemeContext} from '../App'
 
 function Header(){
   const {theme, setTheme} = useContext(ThemeContext)
+  const login = useSelector(state => state.isAuth.user.login)
   const dispatch = useDispatch()
   const [navOpen, setNavOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -16,7 +17,6 @@ function Header(){
   function handleTheme(){
     setTheme(!theme)
   }
-  console.log(theme);
   return(
   <div className={"navHeader " + (theme ? '' : "navHeaderLight")}>
     <nav className='Container Mb-5'>
@@ -29,7 +29,7 @@ function Header(){
       <NavLink to="/Friends">
         Подписки
       </NavLink>
-      <NavLink to="/Account">
+      <NavLink to={`/users/${login}`}>
         Личный кабинет
       </NavLink>
     </nav>
