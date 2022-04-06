@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import MyInput from './UI/Input/MyInput'
 import MyButton from './UI/Button/MyButton'
 import { useDispatch } from 'react-redux';
@@ -10,14 +10,14 @@ function LoginForm(){
   const [toggle, setToggle] = useState(false)
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
-  async function Login(){
+  async function Login(log, pass){
     try {
-      console.log(login, password);
       const response = await axios.post('http://localhost:8000/auth/login', {
-        login:login,
-        password:password
+        login: login ? login : log,
+        password: password ? password : pass
       });
       console.log(response);
+      localStorage.setItem('user', (login ? login : log) + ' ' + (password ? password : pass))
       dispatch({type:"LOGIN_IN", payload:response.data})
     } catch (error) {
       let err = ''
@@ -27,6 +27,13 @@ function LoginForm(){
       alert(err)
     }
   }
+  useEffect(()=>{
+    if(localStorage.user){
+      Login(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1])
+    }
+    console.log(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1]);
+  }, [])
+
   function toggleModal(){
     setToggle(!toggle)
   }

@@ -6,10 +6,11 @@ const axios = require('axios')
 function Friends(){
   const [login, setLogin] = useState([])
   const [search, setSearch] = useState('')
+  const myLogin = useSelector(state => state.isAuth.user.login)
   const users = useSelector(state => state.users)
   
   useEffect(()=>{
-    setLogin(users.filter(user => user.login.startsWith(search)))
+    setLogin(users.filter(user => user.login.startsWith(search) && myLogin !== user.login))
   },[search])
   function handeChange(e){
     setSearch(e.target.value)

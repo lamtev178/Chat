@@ -9,6 +9,7 @@
   outline: 0;
   display:none;
   animation: fadeIn linear 0.5s;
+  color: black;
 }
 .active{
   display: block!important;

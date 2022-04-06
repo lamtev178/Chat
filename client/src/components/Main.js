@@ -12,8 +12,8 @@ function Main(){
       dispatch({type:"GET_USERS", payload: response.data})
       console.log(response);
     }
-    catch(e){
-      console.log(e);
+    catch(error){
+      alert(error.response.data.message)
     }
   }
     async function GetTopics(){
@@ -22,7 +22,7 @@ function Main(){
       dispatch({type: "GET_TOPICS", payload:response.data}) 
       console.log(response);
     } catch (error) {
-      console.log(error);
+      alert(error.response.data.message)
     }
   }
     async function GetComments(){
@@ -31,7 +31,7 @@ function Main(){
       console.log(response);
       dispatch({type: "GET_COMMENTS", payload:response.data}) 
     } catch (error) {
-      console.error(error);
+      alert(error.response.data.message)
     }
   }
   useEffect( ()=>{

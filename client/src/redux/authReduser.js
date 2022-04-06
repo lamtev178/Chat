@@ -3,7 +3,7 @@ export const authReduser = (state={isAuth:false, user : {login:'', subscriptions
     case "LOGIN_IN" :
       return {...state, isAuth:true, user : {login : action.payload.login, subscriptions: action.payload.subscriptions}}
     case "LOGIN_OUT" :
-      return {...state, isAuth:false}
+      return {...state, isAuth:false, user : []}
     default : 
       return state
   }
