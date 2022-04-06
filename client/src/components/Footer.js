@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {Row, Col} from 'reactstrap'
 import {IoLogoGithub} from 'react-icons/io'
+import {ThemeContext} from '../App'
 
 function Footer(){
+  const {theme} = useContext(ThemeContext)
   return(
-  <div className="mt-5 footer">
+  <div className={"mt-5 " + (theme? "footer" : "footerLight")}>
     <Row style={{color:"white", paddingTop:"40px", margin:'auto'}}>
       <Col>
         <h3>

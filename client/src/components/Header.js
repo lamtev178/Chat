@@ -1,10 +1,11 @@
-import React, {useState} from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useState, useContext} from 'react'
+import { useDispatch } from 'react-redux';
 import {NavLink} from "react-router-dom";
 import { BiExit } from 'react-icons/bi';
-import { FaSearch } from 'react-icons/fa';
+import {ThemeContext} from '../App'
 
 function Header(){
+  const {theme, setTheme} = useContext(ThemeContext)
   const dispatch = useDispatch()
   const [navOpen, setNavOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -12,9 +13,12 @@ function Header(){
     localStorage.user=''
     dispatch({type:"LOGIN_OUT"})
   }
-
+  function handleTheme(){
+    setTheme(!theme)
+  }
+  console.log(theme);
   return(
-  <div className="navHeader">
+  <div className={"navHeader " + (theme ? '' : "navHeaderLight")}>
     <nav className='Container Mb-5'>
       <NavLink to="/">
         Темы
@@ -29,7 +33,18 @@ function Header(){
         Личный кабинет
       </NavLink>
     </nav>
-    <BiExit onClick={handleExit} className="topicDark" style ={{fontSize:"35px", position: "absolute", right: "30px", top:"30px", cursor: "pointer"}}/>
+      <div className="toggle "  onClick={handleTheme}>
+        <div className="toggleTrack">
+          <div className="toggleTrackCheck">
+            <span className="toggleIcon">🌞</span>
+          </div>
+          <div className="toggleTrackX">
+            <span className="toggleIcon">🌜</span>
+          </div>
+          <div className={"toggleTrackThumb " + (theme ? null : "toggleTrackThumbActive")}/>
+        </div>
+      </div>
+      <BiExit onClick={handleExit} className="box-darkHover" style ={{fontSize:"35px", position: "absolute", right: "30px", top:"20px", cursor: "pointer", color: "white"}}/>
   </div>
   )
 }

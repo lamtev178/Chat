@@ -6,8 +6,19 @@ function MyInput({title, type, value, dark, onChange,...props}){
     <>
     <h4 style={{marginTop: "15px"}}>{title}</h4>
     {props.textarea ? 
-    <textarea style={props.style} type={type} onChange={onChange} value={value} placeholder={title} className={classes.input + ' ' +(dark ? classes.inputDark : null)}/> :
-    <input type={type} onChange={onChange} value={value} placeholder={title} className={classes.input + ' ' +(dark ? classes.inputDark : null)}/>}
+    <textarea 
+      style={props.style} 
+      type={type} 
+      onChange={onChange} 
+      value={value} 
+      placeholder={title} 
+      className={classes.input + ' ' +(dark ? classes.inputDark : null)}/> :
+    <input 
+      type={type} 
+      onChange={onChange} 
+      value={value} 
+      placeholder={title} 
+      className={classes.input + ' ' +(dark ? classes.inputDark : null)}/>}
     </>
   )
 }

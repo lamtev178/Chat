@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
+import {ThemeContext} from '../App'
 
 function Account(){
+const {theme} = useContext(ThemeContext)
 const user = useSelector(state => state.isAuth.user)
 const comments = useSelector(state => state.comments)
   return(
-      <div className="box">
+      <div className={theme ? "box-dark" : "box-light"}>
         <h1>Личная информация</h1>
         <h3>login : {user.login}</h3>
         <h3>Комментарии : {comments.filter(c => c.author === user.login).length}</h3>

@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {useSelector} from 'react-redux'
 import MyInput from './UI/Input/MyInput'
+import {ThemeContext} from '../App'
 const axios = require('axios')
 
 function Friends(){
+  const {theme} = useContext(ThemeContext)
   const [login, setLogin] = useState([])
   const [search, setSearch] = useState('')
   const myLogin = useSelector(state => state.isAuth.user.login)
@@ -19,7 +21,7 @@ function Friends(){
   const subscriptions = useSelector(state => state.isAuth.user.subscriptions)
   return(
     <>
-      <MyInput dark value={search} title="Поиск по логину" onChange={handeChange} />
+      <MyInput dark={theme ? true : null} value={search} title="Поиск по логину" onChange={handeChange} />
       { !search ? ( subscriptions.length != 0 ?
       subscriptions.map(user =>{
         return(

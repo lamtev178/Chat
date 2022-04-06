@@ -1,6 +1,22 @@
-$blue : #0763b5;
+$blue : #004078;
 $lightblue : #8cbbff;
 $darkblue : #094a83;
+$gray : #c5cdd5;
+$darkgray : #6e757e;
+.app{
+  position: relative;
+  min-height:100vh;
+  background-color:#020a10;
+  color:white;
+  transition: linear 0.2s;
+}
+.light{
+  position: relative;
+  transition: linear 0.2s;
+  min-height:100vh;
+  background-color:#fff;
+  color:black;
+}
 .col a {
   color: white;
   text-decoration: none;
@@ -36,8 +52,6 @@ $darkblue : #094a83;
 }
 .Container{
   width: 100%;
-  padding-right: var(--bs-gutter-x, .75rem);
-  padding-left: var(--bs-gutter-x, .75rem);
   margin-right: auto;
   margin-left: auto;
 }
@@ -72,17 +86,26 @@ $darkblue : #094a83;
   right: 50px;
   bottom:40px;
 }
-.box{
-  color : white;
-  padding:25px;
-  background-color: $blue;
+.box-dark, .box-light{
   border-radius: 0.25rem;
   margin: 10px;
   transition: linear 0.2s;
+  padding:25px;
 }
-.topicDark:hover {
+.box-dark{
+  color : white;
+  background-color: $blue;
+}
+.box-light{
+  background-color : $gray;
+  color:black;
+}
+.box-darkHover:hover {
   box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5),
     -2px -2px 10px rgba(255, 255, 255, 0.5);
+}
+.box-lightHover:hover{
+  box-shadow: 0 0 6px 0.25rem rgba(0, 0, 0, 0.25);
 }
 .navHeader .Container {
   display:flex;
@@ -121,8 +144,70 @@ $darkblue : #094a83;
   margin-top: 3rem !important;
 }
 .footer, .navHeader{
+  transition: linear 0.2s;
   background-color: #152c4c;
 }
+.footerLight, .navHeaderLight{
+  transition: linear 0.2s;
+  background-color: $darkgray;
+}
+.toggleTrackThumb {
+  background-color: #fafafa;
+  border: 1px solid #4d4d4d;
+  border-radius: 50%;
+  height: 22px;
+  left: 1px;
+  position: absolute;
+  top: 1px;
+  transition: .25s;
+  width: 22px;
+}
+.toggleTrackThumbActive{
+  left: 25px;
+}
+.toggleTrackX {
+  right: 10px;
+  width: 10px;
+}
+.toggleTrackCheck {
+  left: 8px;
+  transition: opacity .25s;
+  width: 14px;
+}
+.toggleTrackCheck,
+.toggleTrackX {
+  bottom: 0;
+  height: 10px;
+  margin: auto 0;
+  top: 0;
+  position: absolute;
+}
+.toggleIcon {
+  align-items: center;
+  display: flex;
+  height: 10px;
+  justify-content: center;
+  width: 10px;
+}
+.toggleTrack {
+  background-color: #4d4d4d;
+  border-radius: 30px;
+  height: 24px;
+  transition: .2s;
+  width: 50px;
+}
+.toggle:hover .toggleTrackThumb{
+  box-shadow: 0 0 2px 3px #4c80f9;
+}
+.toggle {
+  cursor: pointer;
+  position: absolute;
+  user-select: none;
+  width: 50px;
+  right: 30px;
+  top:65px;
+}
+
 @media (min-width: 576px) {
   .Container {
     max-width: 540px;
