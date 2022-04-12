@@ -211,7 +211,18 @@ $darkgray : #6e757e;
   right: 30px;
   top:65px;
 }
-
+.X:hover{
+  transform: rotate(180deg)
+}
+.X{
+  height:30px;
+  width:30px;
+  cursor: pointer;
+  position: absolute;
+  right:20px;
+  top:20px;
+  transition: .4s linear;
+}
 @media (min-width: 576px) {
   .Container {
     max-width: 540px;

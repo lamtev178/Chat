@@ -32,7 +32,7 @@ function MySider(){
   return(
     <>
     <div className={(toggleSider ? 'sider sider-active' : 'sider')}>
-      <BiX style={{height:'30px', width:'30px', cursor: 'pointer', position:'absolute', right:'20px', top:'20px'}} onClick={() => setToggleSider(false)}/>
+      <BiX className='X' onClick={() => setToggleSider(false)}/>
       <MyInput value={theme} title='Ваша тема' onChange={e => setTheme(e.target.value)}/>
       <MyInput value={message} title='Описание' textarea  onChange={e => setMessage(e.target.value)}/>
       <MyButton

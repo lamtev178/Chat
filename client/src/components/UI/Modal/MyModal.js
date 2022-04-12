@@ -11,7 +11,7 @@ function MyModal({registration, login, password, mail, setLogin, setPassword, se
       <div className={classes.modalContent}>
         <div className={classes.modalHeader}>
           <h1>Регистрация</h1>
-          <BiX style={{height:'30px', width:'30px', cursor: 'pointer'}} onClick={() => setToggle(false)}/>
+          <BiX className='X' onClick={() => setToggle(false)}/>
         </div>
         <div className={classes.modalBody}>
           <MyInput value={login} type='text' onChange={e => setLogin(e.target.value)} title='login'/>
