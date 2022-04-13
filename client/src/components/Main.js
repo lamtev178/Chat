@@ -24,7 +24,7 @@ function Main(){
     async function GetTopics(){
     try {
       const response = await axios.get('http://localhost:8000/alltopics/topic');
-      dispatch({type: "GET_TOPICS", payload:response.data}) 
+      dispatch({type: "GET_TOPICS", payload:response.data.reverse()}); 
       console.log(response);
     } catch (error) {
       alert(error.response.data.message)
