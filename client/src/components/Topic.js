@@ -8,6 +8,7 @@ import {ThemeContext} from '../App'
 const axios = require('axios').default;
 
 function Topic() {
+  const isAuth = useSelector(state => state.isAuth.isAuth)
   const {theme} = useContext(ThemeContext)
   const [comment, setComment] = useState('')
   const dispatch = useDispatch()
@@ -48,7 +49,7 @@ function Topic() {
             <p style={{wordBreak: "break-all", fontSize:'20px'}}>{comment.message}</p>
             <div className="comments-info">
               <p>
-                <Link to={`/users/${comment.author}`} style={{textDecoration:'none'}}>
+                <Link to={isAuth? `/users/${comment.author}` : '/'} style={{textDecoration:'none'}}>
                   <BiUser />{comment.author}
                 </Link>
               </p>
@@ -58,7 +59,7 @@ function Topic() {
         )
     })}
     <MyInput dark={theme ? true : null} textarea value={comment} style={{height:'250px'}} title='Ваш комментарий' onChange={e => setComment(e.target.value)} />
-    <MyButton onClick={handleSubmitMessage} style={{marginTop:'30px'}}>Отправить</MyButton>
+    <MyButton isAuth={isAuth}  onClick={handleSubmitMessage} style={{marginTop:'30px'}}>Отправить</MyButton>
     </div>
   );
 }

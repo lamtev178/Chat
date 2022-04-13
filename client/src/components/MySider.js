@@ -6,6 +6,7 @@ import { BiX } from 'react-icons/bi';
 const axios = require('axios').default;
 
 function MySider(){
+  const isAuth = useSelector(state => state.isAuth.isAuth)
   const [theme, setTheme] = useState('')
   const [message, setMessage] = useState('')
   const dispatch = useDispatch()
@@ -36,6 +37,7 @@ function MySider(){
       <MyInput value={theme} title='Ваша тема' onChange={e => setTheme(e.target.value)}/>
       <MyInput value={message} title='Описание' textarea  onChange={e => setMessage(e.target.value)}/>
       <MyButton
+        isAuth={isAuth}
         style={{marginTop:'30px'}}
         onClick={handleSubmitTopic}
       >

@@ -1,18 +1,20 @@
-import React, {useState, useContext} from 'react'
+import React, {useContext} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import {NavLink} from "react-router-dom";
+import ChangeTheme from './ChangeTheme';
+import {NavLink, useNavigate} from "react-router-dom";
 import { BiExit } from 'react-icons/bi';
 import {ThemeContext} from '../App'
 
 function Header(){
+  const redirect = useNavigate()
+  const isAuth = useSelector(state => state.isAuth.isAuth)
   const {theme, setTheme} = useContext(ThemeContext)
   const login = useSelector(state => state.isAuth.user.login)
   const dispatch = useDispatch()
-  const [navOpen, setNavOpen] = useState(false)
-  const [search, setSearch] = useState('')
   function handleExit(){
     localStorage.user=''
     dispatch({type:"LOGIN_OUT"})
+    redirect("/")
   }
   function handleTheme(){
     setTheme(!theme)
@@ -20,31 +22,36 @@ function Header(){
   return(
   <div className={"navHeader " + (theme ? '' : "navHeaderLight")}>
     <nav className='Container Mb-5'>
-      <NavLink to="/">
+      <NavLink to="/topics">
         Темы
       </NavLink>
-      <NavLink to="/Messages">
-        Сообщения
-      </NavLink>      
-      <NavLink to="/Friends">
-        Подписки
-      </NavLink>
-      <NavLink to={`/users/${login}`}>
-        Личный кабинет
-      </NavLink>
+      {isAuth ? 
+      <>
+        <NavLink to="/Messages">
+          Сообщения
+        </NavLink>      
+        <NavLink to="/Friends">
+          Подписки
+        </NavLink>
+        <NavLink to={`/users/${login}`}>
+          Личный кабинет
+        </NavLink>
+      </> 
+      :
+        <NavLink to="/">
+          Вход/Регистрация
+        </NavLink>
+      }
     </nav>
-      <div className="toggle "  onClick={handleTheme}>
-        <div className="toggleTrack">
-          <div className="toggleTrackCheck">
-            <span className="toggleIcon">🌞</span>
-          </div>
-          <div className="toggleTrackX">
-            <span className="toggleIcon">🌜</span>
-          </div>
-          <div className={"toggleTrackThumb " + (theme ? null : "toggleTrackThumbActive")}/>
-        </div>
-      </div>
-      <BiExit onClick={handleExit} className="box-darkHover" style ={{fontSize:"35px", position: "absolute", right: "30px", top:"20px", cursor: "pointer", color: "white"}}/>
+      <ChangeTheme theme={theme} handleTheme={handleTheme}/>
+      {isAuth ? 
+      <BiExit 
+        onClick={handleExit} 
+        className="box-darkHover" 
+        style ={{fontSize:"35px", position: "absolute", right: "30px", top:"20px", cursor: "pointer", color: "white"}}
+        />
+        :
+        null}
   </div>
   )
 }
