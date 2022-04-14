@@ -8,10 +8,7 @@ const userMiddleware = require('../userMiddleware')
 router.post('/message', userMiddleware, async (req, res) => {
   try{
     const {message, chat} = req.body
-    const user =  req.user
-    if(user.login !== message.author){
-      res.status(404).json({message: 'Not your acc'})
-    }
+    message.author =  req.user.login
     const forChat = await Chat.findOne({chat})
     forChat.messages.push(message)
     await forChat.save()
@@ -28,10 +25,8 @@ router.post('/chat', userMiddleware, async (req, res) => {
   try{
     const chat = req.body
     const user =  req.user
-    if(user.login!==chat.login){
-      res.status(404).json({message: 'Not your acc'})
-    }
     chat.chat = uuid.v4()
+    chat.login = user.login
     const newChat = new Chat(chat)
     await newChat.save()
       .then(data=>
@@ -45,14 +40,9 @@ router.post('/chat', userMiddleware, async (req, res) => {
 })
 router.get('/chat', userMiddleware, async (req, res) =>{
   try{
-    const {login} = req.body
     const user =  req.user
-    const findUser = await User.findOne({login})
-    if(findUser.login !== user.login){
-      res.status(404).json({message: 'Not your acc'})
-    }
     let chat = await Chat.find()
-    chat = chat.filter(c => c.users.indexOf(login) !== -1)
+    chat = chat.filter(c => c.users.indexOf(user.login) !== -1)
     res.json(chat)
   }
   catch(e){
@@ -62,12 +52,9 @@ router.get('/chat', userMiddleware, async (req, res) =>{
 })
 router.post('/messageIsReaded', userMiddleware, async (req, res) =>{
   try{
-    const {login, chatId} = req.body
-    const user =  req.user
-    const findUser = await User.findOne({login})
-    if(findUser.login !== user.login){
-      res.status(404).json({message: 'Not your acc'})
-    }
+    const {chatId} = req.body
+    const user =  req.user.login
+    const findUser = await User.findOne({user})
     const chat = await Chat.findOne({chat:chatId})
     chat.messages.forEach((mess) => {
       if(mess.author !== findUser.login){
@@ -84,6 +71,5 @@ router.post('/messageIsReaded', userMiddleware, async (req, res) =>{
     res.status(400)
   }
 })
-
 
 module.exports = router
