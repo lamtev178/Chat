@@ -3,9 +3,9 @@ const Chat = require('../models/Chat')
 const User = require('../models/User')
 const uuid = require('uuid')
 const router = Router()
-const userMiddleare = require('../userMiddleare')
+const userMiddleware = require('../userMiddleware')
 
-router.post('/message', userMiddleare, async (req, res) => {
+router.post('/message', userMiddleware, async (req, res) => {
   try{
     const {message, chat} = req.body
     const user =  req.user
@@ -24,7 +24,7 @@ router.post('/message', userMiddleare, async (req, res) => {
     res.status(400)
   }
 })
-router.post('/chat', userMiddleare, async (req, res) => {
+router.post('/chat', userMiddleware, async (req, res) => {
   try{
     const chat = req.body
     const user =  req.user
@@ -43,7 +43,7 @@ router.post('/chat', userMiddleare, async (req, res) => {
     res.status(400)
   }
 })
-router.get('/chat', userMiddleare, async (req, res) =>{
+router.get('/chat', userMiddleware, async (req, res) =>{
   try{
     const {login} = req.body
     const user =  req.user
@@ -60,7 +60,7 @@ router.get('/chat', userMiddleare, async (req, res) =>{
     res.status(400)
   }
 })
-router.post('/messageIsReaded', userMiddleare, async (req, res) =>{
+router.post('/messageIsReaded', userMiddleware, async (req, res) =>{
   try{
     const {login, chatId} = req.body
     const user =  req.user
@@ -74,7 +74,6 @@ router.post('/messageIsReaded', userMiddleare, async (req, res) =>{
         mess.isReaded = true
       }
     })
-    //chat.messages = [...chat["messages"]]
     await chat.save()      
     .then(data=>
         res.json({message:'complete', data:data})
