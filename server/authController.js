@@ -7,9 +7,9 @@ const {secret} = require('./config')
 const uuid = require('uuid')
 const sendMailActivation = require('./sendMailActivation')
 
-const generateAccessToken = (id, roles)=>{
+const generateAccessToken = (id, roles, login)=>{
   const payload = {
-    id, roles
+    id, roles, login
   }
   return jwt.sign(payload, secret, {expiresIn:'24h'})
 }
@@ -63,7 +63,7 @@ class authController{
       if(!validPassword){
         return res.status(400).json({message:`Введен неверный пароль`})
       }
-      const token = generateAccessToken(user._id,user.roles)
+      const token = generateAccessToken(user._id,user.roles, user.login)
       return res.json({token, login, subscriptions: user.subscriptions})
     }
     catch(e){
