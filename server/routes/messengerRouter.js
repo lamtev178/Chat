@@ -12,8 +12,9 @@ router.post('/message', userMiddleware, async (req, res) => {
     const forChat = await Chat.findOne({chat})
     forChat.messages.push(message)
     await forChat.save()
-      .then(data=>
+      .then(data=>{
         res.json({message:'complete', data:data})
+      }
       )
   }
   catch(e){
@@ -54,7 +55,7 @@ router.post('/messageIsReaded', userMiddleware, async (req, res) =>{
   try{
     const {chatId} = req.body
     const user =  req.user.login
-    const findUser = await User.findOne({user})
+    const findUser = await User.findOne({login:user})
     const chat = await Chat.findOne({chat:chatId})
     chat.messages.forEach((mess) => {
       if(mess.author !== findUser.login){
