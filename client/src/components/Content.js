@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux';
 import {useNavigate} from 'react-router-dom'
 import Topics from './Topics'
+import Chat from './Chat'
 import Messages from './Messages'
 import Account from './Account'
 import Friends from './Friends'
@@ -11,11 +12,21 @@ import {Routes, Route} from 'react-router'
 const axios = require('axios')
 
 function Content(){
-    const redirect = useNavigate()
+  const redirect = useNavigate()
   const dispatch= useDispatch()
   const [toggle, setToggle] = useState(false)
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
+  async function getChats(){
+    try{
+      const response = await axios.get('http://localhost:8000/messenger/chat',{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
+      dispatch({type:"GET_CHATS", payload: response.data})
+      console.log(response);
+    }
+    catch(error){
+      alert(error.response.data.message)
+    }
+  }
   async function Login(log, pass){
     try {
       const response = await axios.post('http://localhost:8000/auth/login', {
@@ -24,8 +35,12 @@ function Content(){
       });
       console.log(response);
       localStorage.setItem('user', (login ? login : log) + ' ' + (password ? password : pass))
+      localStorage.setItem('Token', response.data.token)
       redirect("/topics")
       dispatch({type:"LOGIN_IN", payload:response.data})
+      setLogin('')
+      setPassword('')
+      getChats()
     } catch (error) {
       let err = ''
       error.response.data.message ? 
@@ -61,6 +76,7 @@ function Content(){
       <Route path='/Messages' element={<Messages />} />
       <Route path='/users/:login' element={<Account addSubscription={addSubscription}/>} />
       <Route path='/Friends' element={<Friends addSubscription={addSubscription}/>} />
+      <Route path='/Messages/chat/:chatID' element={<Chat />} />
       <Route path='/:topicID' element={<Topic />} />
       <Route path='/' element={<LoginForm toggle={toggle} setToggle={setToggle} toggleModal={toggleModal} Login={Login} login={login} setLogin={setLogin} setPassword={setPassword} password={password}/>} />
     </Routes>

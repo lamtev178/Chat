@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import MyInput from './UI/Input/MyInput'
 import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
@@ -9,10 +9,12 @@ import {ThemeContext} from '../App'
 function Topics(){
   const [search, setSearch] = useState('')
   const {theme} = useContext(ThemeContext)
-  const topics = useSelector(action => action.topics)
+  const topics = useSelector(state => state.topics)
   const [topicsSorted, setTopicsSorted] = useState(topics)
-  const comments = useSelector(action => action.comments)
-  console.log(topicsSorted);
+  const comments = useSelector(state => state.comments)
+  useEffect(()=>{
+    setTopicsSorted(topics)
+  },[topics])
   function handeChange(e){
     setSearch(e.target.value)
     setTopicsSorted(topics.filter(t => t.title.toUpperCase().includes(e.target.value.toUpperCase())))

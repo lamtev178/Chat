@@ -211,6 +211,17 @@ $darkgray : #6e757e;
   right: 30px;
   top:65px;
 }
+.message-not-readed-dark, .message-not-readed-light{
+  border-radius: 0.25rem;
+  padding: 10px;
+  transition: linear 0.2s;
+}
+.message-not-readed-dark {
+  background-color: #164caf;
+}
+.message-not-readed-light{
+  background-color: #abb2bf;
+}
 .X:hover{
   transform: rotate(180deg)
 }

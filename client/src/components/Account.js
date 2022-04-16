@@ -7,10 +7,8 @@ import {ThemeContext} from '../App'
 function Account({addSubscription}){
 const {login} = useParams() 
 const {theme} = useContext(ThemeContext)
-const myUser = useSelector(state => state.isAuth.user)
-const user = useSelector(state => state.users.filter( user => user.login == login)[0])
-
-console.log(myUser.subscriptions, user.login);
+const myUser = useSelector(state => state.isAuth.user) || []
+const user = useSelector(state => state.users.filter( user => user.login == login)[0]) || []
 const comments = useSelector(state => state.comments)
   return(
       <div className={theme ? "box-dark" : "box-light"}>
@@ -24,9 +22,9 @@ const comments = useSelector(state => state.comments)
         </div>
         <h3>login : {user.login}</h3>
         <h3>Комментарии : {comments.filter(c => c.author === user.login).length}</h3>
-        <h3>Подписки : {user.subscriptions.length === 0 ? "Подписок нет" :
+        <h3>Подписки : {user.subscriptions === undefined ? null : (user.subscriptions.length === 0 ? "Подписок нет" :
             user.subscriptions.length
-          }
+        )}
         </h3>
       </div>
   )
