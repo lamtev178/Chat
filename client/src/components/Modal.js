@@ -1,11 +1,17 @@
 import React, {useState} from 'react';
+import MyButton from './UI/Button/MyButton'
+import MyInput from './UI/Input/MyInput'
 import MyModal from './UI/Modal/MyModal'
+import ModalHeader from './UI/Modal/ModalHeader'
+import ModalFooter from './UI/Modal/ModalFooter'
+import ModalBody from './UI/Modal/ModalBody'
 const axios = require('axios');
 
 function Modal({toggleModal, toggle, setToggle}){
   const [login, setLogin] = useState('') 
   const [mail, setMail] = useState('') 
   const [password, setPassword] = useState('') 
+  console.log(login, mail, password);
   async function registration(e){
     e.preventDefault();
     try {
@@ -25,7 +31,29 @@ function Modal({toggleModal, toggle, setToggle}){
     }
   }
   return(
-    <MyModal login={login} setLogin={setLogin} setMail={setMail} setPassword={setPassword} mail={mail} password={password}  registration={registration} toggle={toggle} setToggle={setToggle}/>
+    <MyModal 
+      login={login} 
+      setLogin={setLogin} 
+      setMail={setMail} 
+      setPassword={setPassword} 
+      mail={mail} 
+      password={password}  
+      registration={registration} 
+      toggle={toggle} 
+      setToggle={setToggle}
+    >
+      <ModalHeader onClick={() => setToggle(false)}>
+        <h1>Регистрация</h1>
+      </ModalHeader>
+      <ModalBody>
+        <MyInput value={login} type='text' onChange={e => setLogin(e.target.value)} title='login'/>
+        <MyInput value={password} type='password' onChange={e => setPassword(e.target.value)} title='password'/>
+        <MyInput value={mail} type='text' onChange={e => setMail(e.target.value)} title='mail'/>
+      </ModalBody>
+      <ModalFooter>
+        <MyButton onClick={registration}>Sign in</MyButton>
+      </ModalFooter>
+    </MyModal>
   )
 }
 

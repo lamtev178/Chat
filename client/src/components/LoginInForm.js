@@ -13,7 +13,7 @@ function LoginForm({toggle, setToggle, toggleModal, Login, login, password, setP
       <MyButton onClick={Login}>Login In</MyButton>
       <MyButton onClick={toggleModal}>Sign In</MyButton>
     </div>
-    <Modal toggleModal={toggleModal} toggle={toggle} setToggle={setToggle}/>
+    <Modal toggleModal={toggleModal} toggle={toggle} setToggle={setToggle} />
   </div>
   )
 }
