@@ -1,17 +1,33 @@
 import React, {useEffect} from 'react'
-import {useDispatch } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import Header from './Header'
 import Content from './Content'
 import Footer from './Footer'
 const axios = require('axios').default;
 
 function Main(){
+  const auth = useSelector(state => state.isAuth) || []
   function getUpdates(){
     getUsers()
     GetTopics()
     GetComments()
   }
-    async function getUsers(){
+  let ws = new WebSocket("ws://localhost:8000/ws?token="+localStorage.getItem('Token'));
+  ws.onopen = () => {
+    console.log("Соединение установлено.");
+  };
+  ws.onerror = (event) => {
+    console.log("WebSocket error received: ", event);
+  }
+  ws.onmessage = (data) =>{
+    const mess = JSON.parse(data.data);
+    console.log(mess);
+    dispatch({type: "POST_MESSAGE", payload: {data : mess}})
+  }
+  function handleSendMess(data){
+    ws.send(JSON.stringify(data))
+  }
+  async function getUsers(){
     try{
       const response = await axios.get('http://localhost:8000/auth/users')
       dispatch({type:"GET_USERS", payload: response.data})
@@ -48,8 +64,8 @@ function Main(){
  return(
   <>
     <Header />
-    <div className='Container'>
-      <Content />
+    <div className='Container' style={{marginTop:"100px"}}>
+      <Content handleSendMess={handleSendMess}/>
     </div>
     <Footer />
   </>

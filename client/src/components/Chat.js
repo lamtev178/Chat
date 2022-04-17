@@ -7,7 +7,7 @@ import MyButton from './UI/Button/MyButton';
 import { BiUser } from 'react-icons/bi';
 const axios = require('axios')
 
-function Chat(){
+function Chat({handleSendMess}){
   const dispatch = useDispatch()
   const {chatID} = useParams() 
   const [message, setMessage] = useState('') 
@@ -29,6 +29,12 @@ function Chat(){
     } catch (error) {
       alert(error.response.data.message)
     }
+    handleSendMess({          
+          message: {
+            message: message, 
+            date: date
+          },
+          chat: chatID})
     setMessage('')
   }
   useEffect(async()=>{

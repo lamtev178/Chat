@@ -11,7 +11,7 @@ import LoginForm from './LoginInForm'
 import {Routes, Route} from 'react-router'
 const axios = require('axios')
 
-function Content(){
+function Content({handleSendMess}){
   const redirect = useNavigate()
   const dispatch= useDispatch()
   const [toggle, setToggle] = useState(false)
@@ -49,12 +49,11 @@ function Content(){
       alert(err)
     }
   }
-  useEffect(()=>{
-    if(localStorage.user){
-      Login(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1])
-    }
-  }, [])
-
+  // useEffect(()=>{
+  //   if(localStorage.user){
+  //     Login(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1])
+  //   }
+  // }, [])
   function toggleModal(){
     setToggle(!toggle)
   }
@@ -76,7 +75,7 @@ function Content(){
       <Route path='/Messages' element={<Messages />} />
       <Route path='/users/:login' element={<Account addSubscription={addSubscription}/>} />
       <Route path='/Friends' element={<Friends addSubscription={addSubscription}/>} />
-      <Route path='/Messages/chat/:chatID' element={<Chat />} />
+      <Route path='/Messages/chat/:chatID' element={<Chat handleSendMess={handleSendMess}/>} />
       <Route path='/:topicID' element={<Topic />} />
       <Route path='/' element={<LoginForm toggle={toggle} setToggle={setToggle} toggleModal={toggleModal} Login={Login} login={login} setLogin={setLogin} setPassword={setPassword} password={password}/>} />
     </Routes>
