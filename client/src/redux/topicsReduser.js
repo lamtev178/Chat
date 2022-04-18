@@ -3,7 +3,7 @@ export const topicsReduser = (state=[], action)=>{
     case "GET_TOPICS":
       return [...action.payload];
     case "POST_TOPICS":
-      return [...state, action.payload];
+      return [ action.payload, ...state];
   default:
     return state
   }
