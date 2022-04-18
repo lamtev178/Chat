@@ -32,15 +32,7 @@ function Modal({toggleModal, toggle, setToggle}){
   }
   return(
     <MyModal 
-      login={login} 
-      setLogin={setLogin} 
-      setMail={setMail} 
-      setPassword={setPassword} 
-      mail={mail} 
-      password={password}  
-      registration={registration} 
       toggle={toggle} 
-      setToggle={setToggle}
     >
       <ModalHeader onClick={() => setToggle(false)}>
         <h1>Регистрация</h1>

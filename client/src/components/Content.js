@@ -49,11 +49,11 @@ function Content({handleSendMess}){
       alert(err)
     }
   }
-  // useEffect(()=>{
-  //   if(localStorage.user){
-  //     Login(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1])
-  //   }
-  // }, [])
+  useEffect(()=>{
+    if(localStorage.user){
+      Login(localStorage.user.split(' ')[0], localStorage.user.split(' ')[1])
+    }
+  }, [])
   function toggleModal(){
     setToggle(!toggle)
   }

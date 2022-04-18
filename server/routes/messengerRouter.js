@@ -27,7 +27,7 @@ router.post('/chat', userMiddleware, async (req, res) => {
     const chat = req.body
     const user =  req.user
     chat.chat = uuid.v4()
-    chat.login = user.login
+    chat.users.push(user.login)
     const newChat = new Chat(chat)
     await newChat.save()
       .then(data=>

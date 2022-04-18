@@ -12,6 +12,7 @@ function Chat({handleSendMess}){
   const {chatID} = useParams() 
   const [message, setMessage] = useState('') 
   const chat = useSelector(state => state.chats.find((ch) => ch.chat === chatID)) || []
+  console.log(chat);
   const {theme} = useContext(ThemeContext)
   async function hanleSubmit(){
     let date = (new Date() + "").split(' ')
@@ -38,6 +39,7 @@ function Chat({handleSendMess}){
     setMessage('')
   }
   useEffect(async()=>{
+    document.documentElement.scrollIntoView(false)
     try{
     const response = await axios.post('http://localhost:8000/messenger/messageIsReaded',{
       chatId:chatID
@@ -50,7 +52,7 @@ function Chat({handleSendMess}){
   },[])
   return(
     <>
-      {chat.messages.map(mess => {
+      {chat.length == 0 ? null : chat.messages.map(mess => {
         return(
         <div className={theme ? "box-dark" : "box-light"} style={{padding:'10px'}} key={mess._id}>
           <p style={{wordBreak: "break-all", fontSize:'20px'}}>{mess.message}</p>

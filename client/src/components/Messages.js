@@ -6,7 +6,6 @@ import { BiUser } from 'react-icons/bi';
 
 function Messages(){
   const chats = useSelector(state => state.chats) || []
-  console.log(chats);
   const login = useSelector(state => state.isAuth.user.login) || []
   const {theme} = useContext(ThemeContext)
   return(
@@ -25,6 +24,7 @@ function Messages(){
                   </div>
                 )
               })}
+              {chat.messages.length == 0 ? null :
               <div className={"comments-info " + 
                 (chat.messages[chat.messages.length - 1].isReaded ? 
                 "" : 
@@ -39,6 +39,7 @@ function Messages(){
                 </p>
                 <p>{chat.messages[chat.messages.length - 1].date}</p>
               </div>
+              }
             </div>
           </Link>
         )
