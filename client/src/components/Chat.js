@@ -9,8 +9,8 @@ const axios = require('axios')
 
 function Chat({handleSendMess}){
   const dispatch = useDispatch()
-  const {chatID} = useParams() 
-  const [message, setMessage] = useState('') 
+  const {chatID} = useParams()
+  const [message, setMessage] = useState('')
   const chat = useSelector(state => state.chats.find((ch) => ch.chat === chatID)) || []
   console.log(chat);
   const {theme} = useContext(ThemeContext)
@@ -20,7 +20,7 @@ function Chat({handleSendMess}){
     try{
       const  response = await axios.post('http://localhost:8000/messenger/message', {
           message: {
-            message: message, 
+            message: message,
             date: date
           },
           chat: chatID
@@ -30,9 +30,9 @@ function Chat({handleSendMess}){
     } catch (error) {
       alert(error.response.data.message)
     }
-    handleSendMess({          
+    handleSendMess({
           message: {
-            message: message, 
+            message: message,
             date: date
           },
           chat: chatID})
@@ -55,7 +55,8 @@ function Chat({handleSendMess}){
       {chat.length == 0 ? null : chat.messages.map(mess => {
         return(
         <div className={theme ? "box-dark" : "box-light"} style={{padding:'10px'}} key={mess._id}>
-          <p style={{wordBreak: "break-all", fontSize:'20px'}}>{mess.message}</p>
+          <p style={{wordBreak: "break-all", fontSize:'20px'}} className={(mess.isReaded ? "" :
+            (theme ? "message-not-readed-dark" : "message-not-readed-light"))}>{mess.message}</p>
           <div className="comments-info" style={{fontSize:'16px'}}>
             <p>
               <BiUser />{mess.author}

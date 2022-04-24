@@ -149,7 +149,6 @@ $darkgray : #6e757e;
 .navHeader a{
   overflow:hidden;
   color:white;
-  font-size: 30px;
   text-decoration: none;
   padding-top: 30px;
 }
@@ -246,6 +245,13 @@ $darkgray : #6e757e;
   top:20px;
   transition: .4s linear;
 }
+.exit{
+  position: absolute;
+  right: 30px;
+  top:20px;
+  cursor: pointer;
+  color: white;
+}
 @media (min-width: 576px) {
   .Container {
     max-width: 540px;
@@ -259,6 +265,34 @@ $darkgray : #6e757e;
 @media (min-width: 1200px) {
   .Container {
     max-width: 1140px;
+    font-size: 20px!important;
+  }
+  .exit{
+    top:5px;
+  }
+  .toggle{
+    top:40px;
+  }
+  h3{
+  font-size: 18px!important;
+  }
+  h2{
+  font-size: 20px!important;
+  }
+  h1{
+  font-size: 25px!important;
+  }
+  p{
+    font-size: 15px!important;
+  }
+  .navHeader {
+    height: 75px;
+  }
+  .box-dark, .box-light {
+    padding: 15px;
+  }
+  .navHeader a {
+    padding-top: 20px;
   }
 }
 @media (min-width: 1400px) {

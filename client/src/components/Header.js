@@ -25,18 +25,18 @@ function Header(){
       <NavLink to="/topics">
         Темы
       </NavLink>
-      {isAuth ? 
+      {isAuth ?
       <>
         <NavLink to="/Messages">
           Сообщения
-        </NavLink>      
+        </NavLink>
         <NavLink to="/Friends">
           Подписки
         </NavLink>
         <NavLink to={`/users/${login}`}>
           Личный кабинет
         </NavLink>
-      </> 
+      </>
       :
         <NavLink to="/">
           Вход/Регистрация
@@ -44,11 +44,11 @@ function Header(){
       }
     </nav>
       <ChangeTheme theme={theme} handleTheme={handleTheme}/>
-      {isAuth ? 
-      <BiExit 
-        onClick={handleExit} 
-        className="box-darkHover" 
-        style ={{fontSize:"35px", position: "absolute", right: "30px", top:"20px", cursor: "pointer", color: "white"}}
+      {isAuth ?
+      <BiExit
+        onClick={handleExit}
+        className="box-darkHover exit"
+        style ={{fontSize:"35px"}}
         />
         :
         null}
@@ -56,4 +56,3 @@ function Header(){
   )
 }
 export default Header
-
