@@ -2,18 +2,21 @@ import React, {useState} from 'react';
 import MyButton from './UI/Button/MyButton'
 import MyInput from './UI/Input/MyInput'
 import MyModal from './UI/Modal/MyModal'
+import Loader from './Loader'
 import ModalHeader from './UI/Modal/ModalHeader'
 import ModalFooter from './UI/Modal/ModalFooter'
 import ModalBody from './UI/Modal/ModalBody'
 const axios = require('axios');
 
 function Modal({toggleModal, toggle, setToggle}){
-  const [login, setLogin] = useState('') 
-  const [mail, setMail] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [registInProcess, setRegistInProcess] = useState(false)
+  const [login, setLogin] = useState('')
+  const [mail, setMail] = useState('')
+  const [password, setPassword] = useState('')
   console.log(login, mail, password);
   async function registration(e){
     e.preventDefault();
+    setRegistInProcess(true)
     try {
     await axios.post('http://localhost:8000/auth/registration/',{
       login:login,
@@ -24,16 +27,19 @@ function Modal({toggleModal, toggle, setToggle}){
     alert('На вашу почту отправлено письмо с подтверждением')
     } catch (error) {
       let err = ''
-      error.response.data.message ? 
-      alert(error.response.data.message) : 
+      error.response.data.message ?
+      alert(error.response.data.message) :
       (error.response.data.errors.map(er => err += er.msg))
       alert(err)
     }
+    setRegistInProcess(false)
   }
   return(
-    <MyModal 
-      toggle={toggle} 
+    <MyModal
+      toggle={toggle}
     >
+      {registInProcess ? <Loader />  :
+        <>
       <ModalHeader onClick={() => setToggle(false)}>
         <h1>Регистрация</h1>
       </ModalHeader>
@@ -45,6 +51,8 @@ function Modal({toggleModal, toggle, setToggle}){
       <ModalFooter>
         <MyButton onClick={registration}>Sign in</MyButton>
       </ModalFooter>
+      </>
+    }
     </MyModal>
   )
 }

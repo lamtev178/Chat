@@ -10,6 +10,16 @@ $darkgray : #6e757e;
   color:white;
   transition: linear 0.2s;
 }
+.loader{
+  padding: 30px 0 30px 0;
+  margin: auto;
+}
+.spin{
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 .light{
   position: relative;
   transition: linear 0.2s;
@@ -255,4 +265,12 @@ $darkgray : #6e757e;
   .Container {
     max-width: 1317px;
   }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }
