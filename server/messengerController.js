@@ -37,6 +37,21 @@ class messengerController {
       res.status(400)
     }
   }
+  async addUserToChat (req, res) {
+    try{
+      const {chatId, users} = req.body
+      const updatedChat =  await Chat.findOne({chat:chatId})
+      updatedChat.users = updatedChat.users.concat(users)
+      await updatedChat.save()
+        .then(data=>
+          res.json({message:'complete', data:data})
+        )
+    }
+    catch(e){
+      console.log(e);
+      res.status(400)
+    }
+  }
   async getChat (req, res){
     try{
       const user =  req.user

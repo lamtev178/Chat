@@ -3,6 +3,7 @@ const {Schema, model} = require('mongoose')
 const Chat = new Schema({
   chat : {type : String},
   users: [{type : String, required:true}],
+  chatName:String,
   messages: [{
     author : {type : String, required:true},
     isReaded : {type : Boolean, default:false},
