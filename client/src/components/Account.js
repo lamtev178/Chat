@@ -10,17 +10,22 @@ import ModalBody from './UI/Modal/ModalBody'
 import {ThemeContext} from '../App'
 const axios = require('axios')
 
-function Account({addSubscription}){
-  const dispatch = useDispatch()
-  const [toggle, setToggle] = useState(false)
-  const [mess, setMess] = useState('')
-  const chats = useSelector(state => state.chats) || []
-  const redirect = useNavigate()
-  const {login} = useParams() 
+function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUsers}){
   const {theme} = useContext(ThemeContext)
-  const myUser = useSelector(state => state.isAuth.user) || []
-  const user = useSelector(state => state.users.filter( user => user.login === login)[0]) || []
+
+  const dispatch = useDispatch()
+
+  const [toggle, setToggle] = useState(false)
+
+  const redirect = useNavigate()
+
+  const {login} = useParams()
+  setNewChatUsers(login)
+
+  const chats = useSelector(state => state.chats) || []
   const comments = useSelector(state => state.comments)
+  const user = useSelector(state => state.users.filter( user => user.login===login)[0]) || []
+
   async function newMessage(){
     let isExists = false
     chats.forEach(ch => {
@@ -32,35 +37,14 @@ function Account({addSubscription}){
     })
     if(isExists)
       redirect(`/Messages/chat/${isExists.chat}`)
-    else 
+    else
       setToggle(true)
-  }
-  async function newChat(){
-    let date = (new Date() + "").split(' ')
-    date = date[2] + " " + date[1] + " " + date[4].slice(0,5)
-    let message = {
-      message: mess,
-      date: date,
-      author: myUser.login
-    }
-    console.log(message, user.login);
-    try{
-      const response = await axios.post('http://localhost:8000/messenger/chat', {
-        users: [user.login],
-        messages: [message]
-      },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }});
-      dispatch({type: "CREATE_CHAT", payload: response.data.data})
-      console.log(response);
-      redirect(`/Messages/chat/${response.data.data.chat}`)
-    }catch(error){
-      alert(error.response.data.message)
-    }
   }
   return(
       <div className={theme ? "box-dark" : "box-light"}>
         <div className="justifyBetween">
           <h1>Личная информация</h1>
-          {((myUser.login === user.login) ||  (myUser.subscriptions.indexOf(user.login) > -1)) ? null : 
+          {((myUser.login === user.login) ||  (myUser.subscriptions.indexOf(user.login) > -1)) ? null :
             <MyButton onClick={() => addSubscription({login : myUser.login, subscription: user.login})}>
               Подписаться
             </MyButton>

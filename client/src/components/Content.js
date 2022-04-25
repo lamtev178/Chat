@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import Topics from './Topics'
 import Chat from './Chat'
@@ -14,9 +14,17 @@ const axios = require('axios')
 function Content({handleSendMess}){
   const redirect = useNavigate()
   const dispatch= useDispatch()
+
   const [toggle, setToggle] = useState(false)
+  const [newChatUsers, setNewChatUsers] = useState([])
+  const [mess, setMess] = useState('')
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
+  const [chatName, setChatName] = useState('')
+
+  const myUser = useSelector(state => state.isAuth.user) || []
+  const users = useSelector(state => state.users.filter( user => newChatUsers.includes(user.login))) || []
+
   async function getChats(){
     try{
       const response = await axios.get('http://localhost:8000/messenger/chat',{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
@@ -24,6 +32,29 @@ function Content({handleSendMess}){
       console.log(response);
     }
     catch(error){
+      alert(error.response.data.message)
+    }
+  }
+  async function newChat(){
+    let date = (new Date() + "").split(' ')
+    date = date[2] + " " + date[1] + " " + date[4].slice(0,5)
+    let message = {
+      message: mess,
+      date: date,
+      author: myUser.login
+    }
+    const usersLogins = users.map(user => {return user.login})
+    try{
+      const response = await axios.post('http://localhost:8000/messenger/chat', {
+        users: usersLogins,
+        messages: [message],
+        chatName: (chatName.length == 0 ? '' : chatName)
+      },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }});
+      dispatch({type: "CREATE_CHAT", payload: response.data.data})
+      console.log(response);
+      setMess('')
+      redirect(`/Messages/chat/${response.data.data.chat}`)
+    }catch(error){
       alert(error.response.data.message)
     }
   }
@@ -43,8 +74,8 @@ function Content({handleSendMess}){
       getChats()
     } catch (error) {
       let err = ''
-      error.response.data.message ? 
-      alert(error.response.data.message) : 
+      error.response.data.message ?
+      alert(error.response.data.message) :
       (error.response.data.errors.map(er => err += er.msg))
       alert(err)
     }
@@ -72,8 +103,8 @@ function Content({handleSendMess}){
   return(
     <Routes>
       <Route path='/topics' element={<Topics />} />
-      <Route path='/Messages' element={<Messages />} />
-      <Route path='/users/:login' element={<Account addSubscription={addSubscription}/>} />
+      <Route path='/Messages' element={<Messages setNewChatUsers={setNewChatUsers} setMess={setMess} mess={mess} chatName={chatName} setChatName={setChatName} newChat={newChat}/>} />
+      <Route path='/users/:login' element={<Account setNewChatUsers={setNewChatUsers} mess={mess} setMess={setMess} myUser={myUser} addSubscription={addSubscription} newChat={newChat}/>} />
       <Route path='/Friends' element={<Friends addSubscription={addSubscription}/>} />
       <Route path='/Messages/chat/:chatID' element={<Chat handleSendMess={handleSendMess}/>} />
       <Route path='/:topicID' element={<Topic />} />
