@@ -12,14 +12,15 @@ function Friends({addSubscription}){
   const [search, setSearch] = useState('')
   const myUser = useSelector(state => state.isAuth.user)
   const users = useSelector(state => state.users)
-  
+
+
   useEffect(()=>{
     setLogin(users.filter(user => user.login.startsWith(search) && myUser.login !== user.login))
   },[search])
   function handeChange(e){
     setSearch(e.target.value)
   }
-
+  console.log(users);
   const subscriptions = useSelector(state => state.isAuth.user.subscriptions)
   return(
     <>
@@ -34,15 +35,16 @@ function Friends({addSubscription}){
           </Link>
         )
       }) :
-      <h5 style ={{marginTop:'30px'}}>Список ваших подписок пуст.</h5>) : 
+      <h5 style ={{marginTop:'30px'}}>Список ваших подписок пуст.</h5>) :
       login.map(user =>{
+        console.log("subscriptions = "+subscriptions+",user.login = "+user.login);
         return(
             <div key={user._id} className={"justifyBetween " + (theme ? "box-dark " : "box-light ")}>
               <Link to={`/users/${user.login}`} key={user._id} style={{textDecoration:'none'}}>
                 <h2>{user.login}</h2>
               </Link>
-              {subscriptions.indexOf(user.login) > 0 ? 
-                <MyButton onClick={() => addSubscription({login : myUser.login, subscription: user.login})}>Подписаться</MyButton> : 
+              {subscriptions.indexOf(user.login) === -1 ?
+                <MyButton onClick={() => addSubscription({login : myUser.login, subscription: user.login})}>Подписаться</MyButton> :
                 null
               }
             </div>

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {useParams, useNavigate} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import MyButton from './UI/Button/MyButton'
@@ -8,9 +8,10 @@ import ModalHeader from './UI/Modal/ModalHeader'
 import ModalFooter from './UI/Modal/ModalFooter'
 import ModalBody from './UI/Modal/ModalBody'
 import {ThemeContext} from '../App'
+import Loader from './Loader'
 const axios = require('axios')
 
-function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUsers}){
+function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUsers, isLoading}){
   const {theme} = useContext(ThemeContext)
 
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUse
   const comments = useSelector(state => state.comments)
   const user = useSelector(state => state.users.filter( user => user.login===login)[0]) || []
 
+  console.log(myUser);
   async function newMessage(){
     let isExists = false
     chats.forEach(ch => {
@@ -44,7 +46,7 @@ function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUse
       <div className={theme ? "box-dark" : "box-light"}>
         <div className="justifyBetween">
           <h1>Личная информация</h1>
-          {((myUser.login === user.login) ||  (myUser.subscriptions.indexOf(user.login) > -1)) ? null :
+          {isLoading ? <Loader /> : ((myUser.login === user.login) ||  (myUser.subscriptions.indexOf(user.login) > -1)) ? null :
             <MyButton onClick={() => addSubscription({login : myUser.login, subscription: user.login})}>
               Подписаться
             </MyButton>
@@ -57,9 +59,12 @@ function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUse
         </div>
         <h3>login : {user.login}</h3>
         <h3>Комментарии : {comments.filter(c => c.author === user.login).length}</h3>
-        <h3>Подписки : {user.subscriptions === undefined ? null : (user.subscriptions.length === 0 ? "Подписок нет" :
+        <h3>Подписки : {
+          myUser.login === user.login ? myUser.subscriptions.length :
+          (
+          user.subscriptions === undefined ? null : (user.subscriptions.length === 0 ? "Подписок нет" :
             user.subscriptions.length
-        )}
+        ))}
         </h3>
         <MyModal toggle={toggle} >
           <ModalHeader onClick={() => setToggle(false)}>

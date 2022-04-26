@@ -21,6 +21,7 @@ function Content({handleSendMess}){
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [chatName, setChatName] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const myUser = useSelector(state => state.isAuth.user) || []
   const users = useSelector(state => state.users.filter( user => newChatUsers.includes(user.login))) || []
@@ -89,22 +90,25 @@ function Content({handleSendMess}){
     setToggle(!toggle)
   }
   async function addSubscription({login, subscription}){
-    console.log(login, subscription);
+    setIsLoading(true)
+    console.log(login, subscription + "----------------------------s");
     try {
     const response = await axios.post('http://localhost:8000/auth/addsub',{
       login:login,
       subscription:subscription
     })
+    dispatch({type: "ADD_SUB", payload: subscription})
     console.log(response);
     } catch (error) {
         alert(error.response.data.message)
     }
+    setIsLoading(false)
   }
   return(
     <Routes>
       <Route path='/topics' element={<Topics />} />
-      <Route path='/Messages' element={<Messages setNewChatUsers={setNewChatUsers} setMess={setMess} mess={mess} chatName={chatName} setChatName={setChatName} newChat={newChat}/>} />
-      <Route path='/users/:login' element={<Account setNewChatUsers={setNewChatUsers} mess={mess} setMess={setMess} myUser={myUser} addSubscription={addSubscription} newChat={newChat}/>} />
+      <Route path='/Messages' element={<Messages isLoading={isLoading} setNewChatUsers={setNewChatUsers} setMess={setMess} mess={mess} chatName={chatName} setChatName={setChatName} newChat={newChat}/>} />
+      <Route path='/users/:login' element={<Account isLoading={isLoading} setNewChatUsers={setNewChatUsers} mess={mess} setMess={setMess} myUser={myUser} addSubscription={addSubscription} newChat={newChat}/>} />
       <Route path='/Friends' element={<Friends addSubscription={addSubscription}/>} />
       <Route path='/Messages/chat/:chatID' element={<Chat handleSendMess={handleSendMess}/>} />
       <Route path='/:topicID' element={<Topic />} />
