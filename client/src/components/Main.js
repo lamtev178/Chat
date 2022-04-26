@@ -37,20 +37,20 @@ function Main(){
       alert(error.response.data.message)
     }
   }
-    async function GetTopics(){
+  async function GetTopics(){
     try {
       const response = await axios.get('http://localhost:8000/alltopics/topic');
-      dispatch({type: "GET_TOPICS", payload:response.data.reverse()}); 
+      dispatch({type: "GET_TOPICS", payload:response.data.reverse()});
       console.log(response);
     } catch (error) {
       alert(error.response.data.message)
     }
   }
-    async function GetComments(){
+  async function GetComments(){
     try {
       const response = await axios.get('http://localhost:8000/alltopics/comment');
       console.log(response);
-      dispatch({type: "GET_COMMENTS", payload:response.data}) 
+      dispatch({type: "GET_COMMENTS", payload:response.data})
     } catch (error) {
       alert(error.response.data.message)
     }

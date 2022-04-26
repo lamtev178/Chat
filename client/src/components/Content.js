@@ -16,15 +16,17 @@ function Content({handleSendMess}){
   const dispatch= useDispatch()
 
   const [toggle, setToggle] = useState(false)
-  const [newChatUsers, setNewChatUsers] = useState([])
   const [mess, setMess] = useState('')
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [chatName, setChatName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const myUser = useSelector(state => state.isAuth.user) || []
-  const users = useSelector(state => state.users.filter( user => newChatUsers.includes(user.login))) || []
+  const myUser = useSelector(state => state.isAuth.user)
+  const [checkedState, setCheckedState] = useState(
+    new Array(myUser.subscriptions.length).fill(false)
+  )
+  useEffect(()=>setCheckedState(new Array(myUser.subscriptions.length).fill(false)),[myUser])
 
   async function getChats(){
     try{
@@ -36,7 +38,7 @@ function Content({handleSendMess}){
       alert(error.response.data.message)
     }
   }
-  async function newChat(){
+  async function newChat(users){
     let date = (new Date() + "").split(' ')
     date = date[2] + " " + date[1] + " " + date[4].slice(0,5)
     let message = {
@@ -44,16 +46,38 @@ function Content({handleSendMess}){
       date: date,
       author: myUser.login
     }
-    const usersLogins = users.map(user => {return user.login})
+    if(mess==='' ||  chatName===''){
+      alert("Введите название беседы и сообщение")
+      return
+    }
+    if(users.length === 0){
+      alert("У вас нет подписок")
+      setToggle(false)
+      return
+    }
+    const res=[]
+    if(typeof(users[0])==="boolean"){
+      if(users.indexOf(true) === -1){
+        alert("At least one user")
+        return
+      } else {
+        for(let i =0; i < users.length; i++){
+          if(users[i])
+            res.push(myUser.subscriptions[i])
+        }
+      }
+    }
     try{
       const response = await axios.post('http://localhost:8000/messenger/chat', {
-        users: usersLogins,
+        users: res.length > 0 ? res : users,
         messages: [message],
-        chatName: (chatName.length == 0 ? '' : chatName)
+        chatName: (chatName.length === 0 ? '' : chatName)
       },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }});
       dispatch({type: "CREATE_CHAT", payload: response.data.data})
       console.log(response);
       setMess('')
+      setCheckedState(new Array(myUser.subscriptions.length).fill(false))
+      setChatName('')
       redirect(`/Messages/chat/${response.data.data.chat}`)
     }catch(error){
       alert(error.response.data.message)
@@ -89,6 +113,12 @@ function Content({handleSendMess}){
   function toggleModal(){
     setToggle(!toggle)
   }
+  const handleChecked = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+  }
   async function addSubscription({login, subscription}){
     setIsLoading(true)
     console.log(login, subscription + "----------------------------s");
@@ -107,8 +137,8 @@ function Content({handleSendMess}){
   return(
     <Routes>
       <Route path='/topics' element={<Topics />} />
-      <Route path='/Messages' element={<Messages isLoading={isLoading} setNewChatUsers={setNewChatUsers} setMess={setMess} mess={mess} chatName={chatName} setChatName={setChatName} newChat={newChat}/>} />
-      <Route path='/users/:login' element={<Account isLoading={isLoading} setNewChatUsers={setNewChatUsers} mess={mess} setMess={setMess} myUser={myUser} addSubscription={addSubscription} newChat={newChat}/>} />
+      <Route path='/Messages' element={<Messages checkedState={checkedState} handleChecked={handleChecked} allSubs={myUser.subscriptions} isLoading={isLoading} setMess={setMess} mess={mess} chatName={chatName} setChatName={setChatName} newChat={newChat}/>} />
+      <Route path='/users/:login' element={<Account isLoading={isLoading} mess={mess} setMess={setMess} myUser={myUser} addSubscription={addSubscription} newChat={newChat}/>} />
       <Route path='/Friends' element={<Friends addSubscription={addSubscription}/>} />
       <Route path='/Messages/chat/:chatID' element={<Chat handleSendMess={handleSendMess}/>} />
       <Route path='/:topicID' element={<Topic />} />

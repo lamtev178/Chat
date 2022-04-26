@@ -110,7 +110,7 @@ class authController{
       res.status(400)
     }
   }
-  
+
 }
 
 module.exports = new authController()

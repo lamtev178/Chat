@@ -11,7 +11,7 @@ import {ThemeContext} from '../App'
 import Loader from './Loader'
 const axios = require('axios')
 
-function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUsers, isLoading}){
+function Account({addSubscription, newChat, myUser, mess, setMess, isLoading}){
   const {theme} = useContext(ThemeContext)
 
   const dispatch = useDispatch()
@@ -21,13 +21,11 @@ function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUse
   const redirect = useNavigate()
 
   const {login} = useParams()
-  setNewChatUsers(login)
 
   const chats = useSelector(state => state.chats) || []
   const comments = useSelector(state => state.comments)
   const user = useSelector(state => state.users.filter( user => user.login===login)[0]) || []
 
-  console.log(myUser);
   async function newMessage(){
     let isExists = false
     chats.forEach(ch => {
@@ -74,7 +72,7 @@ function Account({addSubscription, newChat, myUser, mess, setMess, setNewChatUse
             <MyInput value={mess} type='text' onChange={e => setMess(e.target.value)} title='Сообщение'/>
           </ModalBody>
           <ModalFooter>
-            <MyButton onClick={newChat}>Написать</MyButton>
+            <MyButton onClick={() => newChat([login])}>Написать</MyButton>
           </ModalFooter>
         </MyModal>
       </div>

@@ -13,7 +13,6 @@ function Modal({toggleModal, toggle, setToggle}){
   const [login, setLogin] = useState('')
   const [mail, setMail] = useState('')
   const [password, setPassword] = useState('')
-  console.log(login, mail, password);
   async function registration(e){
     e.preventDefault();
     setRegistInProcess(true)
@@ -41,7 +40,7 @@ function Modal({toggleModal, toggle, setToggle}){
       {registInProcess ? <Loader />  :
         <>
       <ModalHeader onClick={() => setToggle(false)}>
-        <h1>Регистрация</h1>
+        Регистрация
       </ModalHeader>
       <ModalBody>
         <MyInput value={login} type='text' onChange={e => setLogin(e.target.value)} title='login'/>

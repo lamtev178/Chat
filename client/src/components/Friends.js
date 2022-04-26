@@ -25,7 +25,7 @@ function Friends({addSubscription}){
   return(
     <>
       <MyInput dark={theme ? true : null} value={search} title="Поиск по логину" onChange={handeChange} />
-      { !search ? ( subscriptions.length != 0 ?
+      { !search ? ( subscriptions.length !== 0 ?
       subscriptions.map(login =>{
         return(
           <Link to={`/users/${login}`} key={login} style={{textDecoration:'none'}}>
