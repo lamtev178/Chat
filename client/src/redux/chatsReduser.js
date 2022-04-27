@@ -12,6 +12,14 @@ export const chatsReduser = (state=[],action)=>{
       let res = [...state.map(el => el._id===action.payload.data._id ? action.payload.data : el)]
       return res
     }
+    case "DELETE_USER_FROM_CHAT" :{
+      let res = [...state.map(chat => chat.chat === action.payload.chat ? action.payload : chat)]
+      return res
+      }
+    case "DELETE_CHAT" :{
+      let res = [...state.filter(chat => chat.chat !== action.payload)]
+      return res
+    }
     default :
       return state
   }

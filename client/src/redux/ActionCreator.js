@@ -26,7 +26,7 @@ export const getTopics = () => async (dispatch) => {
     const response = await axios.get('http://localhost:8000/alltopics/topic');
     dispatch(addTopics(response.data.reverse()))
   } catch (error) {
-    alert(error.response.data.message)
+    alert(error.response.data)
   }
 }
 const addComments = (comments) =>{
@@ -40,7 +40,7 @@ export const getComments = () => async (dispatch) => {
     const response = await axios.get('http://localhost:8000/alltopics/comment');
     dispatch(addComments(response.data))
   } catch (error) {
-    alert(error.response.data.message)
+    alert(error.response.data)
   }
 }
 const addChats = (chats) =>{
@@ -189,6 +189,30 @@ export const messReaded = (chatID) => async (dispatch) => {
     },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
     dispatch(messIsReaded(response.data.data))
   } catch (error) {
+    alert(error.response.data.message)
+  }
+}
+const delUserDispatch = (chat) => {
+  return{
+    type : "DELETE_USER_FROM_CHAT",
+    payload : chat
+  }
+}
+const delChatDispatch = (chat) => {
+  return{
+    type : "DELETE_CHAT",
+    payload : chat
+  }
+}
+export const delUser = (chat, user, redirect) => async (dispatch) => {
+  try{
+    const response = await axios.delete(`http://localhost:8000/messenger/chat/${chat}/${user}`,
+    {headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
+    if(response.data.data === false || user===localStorage.getItem('user').split(' ')[0]){
+      redirect("/Messages")
+      dispatch(delChatDispatch(chat))
+    }else dispatch(delUserDispatch(response.data.data))
+  }catch(error){
     alert(error.response.data.message)
   }
 }

@@ -20,6 +20,33 @@ class messengerController {
       res.status(400)
     }
   }
+  async delUserFromChat(req,res){
+    try{
+      const {chatId, userId} = req.params
+      const chat = await Chat.findOne({chat:chatId})
+      if(userId === req.user.login || req.user.login === chat.users[chat.users.length-1]){
+        chat.users = chat.users.filter(user => user !== userId)
+        if(chat.users.length === 0){
+          Chat.deleteOne({chat:chatId}, function (err) {
+            if (err)
+              console.log("err while deleted!!!!!");
+            }
+          )
+          res.json({message:'complete', data:false})
+        }
+        await chat.save()
+          .then(data =>
+            res.json({message:'complete', data:data})
+          )}
+      else {
+        res.status(400)
+        res.json({message:"Вы не являетесь создателем беседы"})
+      }
+    }catch(e){
+      console.log(e)
+      res.status(400)
+    }
+  }
   async createChat (req, res) {
     try{
       const chat = req.body

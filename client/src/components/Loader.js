@@ -1,9 +1,13 @@
 import React from "react"
 import { BsArrowClockwise } from 'react-icons/bs';
 
-function Loader(){
+function Loader({style}){
   return(
-    <div className="loader"><BsArrowClockwise className="spin" style={{height:"30px", width:"30px"}}/></div>
+    <div className="loader" style={style}>
+      <BsArrowClockwise
+        className="spin" 
+        style={{height:"30px", width:"30px"}}/>
+    </div>
   );
 }
 

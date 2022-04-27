@@ -3,6 +3,8 @@ $lightblue : #8cbbff;
 $darkblue : #094a83;
 $gray : #c5cdd5;
 $darkgray : #6e757e;
+$chatligth : #ededed;
+$chatdark : #0c273e;
 .app{
   position: relative;
   min-height:100vh;
@@ -256,16 +258,38 @@ $darkgray : #6e757e;
   overflow-x:hidden;
   margin: 15px;
 }
-.sendMessForm{
+.sendMessForm, .sendMessForm-dark{
   position:sticky;
   bottom:0;
   width: 100%;
   padding: 30px;
-  background-color: #ededed;
 }
-.chat{
+.chat-header-ligth, .chat-header-dark{
+  position:sticky;
+  top:75px;
+  width: 100%;
+  padding: 15px;
+}
+.chat-header-ligth{
+    background-color: $chatligth;
+}
+.chat-header-dark{
+  background-color: $chatdark;
+}
+.sendMessForm{
+  background-color: $chatligth;
+}
+.sendMessForm-dark{
+  background-color: $chatdark;
+}
+.chat-ligth, .chat-dark{
   padding:30px 30px 0 30px;
-  background-color: #ededed;
+}
+.chat-ligth{
+  background-color: $chatligth;
+}
+.chat-dark{
+  background-color: $chatdark;
 }
 .exit{
   position: absolute;
