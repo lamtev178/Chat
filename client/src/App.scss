@@ -250,6 +250,23 @@ $darkgray : #6e757e;
   top:20px;
   transition: .4s linear;
 }
+.users-list{
+  height: 150px;
+  overflow: scroll;
+  overflow-x:hidden;
+  margin: 15px;
+}
+.sendMessForm{
+  position:sticky;
+  bottom:0;
+  width: 100%;
+  padding: 30px;
+  background-color: #ededed;
+}
+.chat{
+  padding:30px 30px 0 30px;
+  background-color: #ededed;
+}
 .exit{
   position: absolute;
   right: 30px;

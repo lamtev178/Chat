@@ -3,7 +3,7 @@ export const chatsReduser = (state=[],action)=>{
     case "GET_CHATS" :
       return [...action.payload]
     case "CREATE_CHAT" :
-      return [...state, action.payload]
+      return [action.payload, ...state]
     case "POST_MESSAGE" :{
       let res = [...state.map(el => el._id===action.payload.data._id ? action.payload.data : el)]
       return res
@@ -12,7 +12,7 @@ export const chatsReduser = (state=[],action)=>{
       let res = [...state.map(el => el._id===action.payload.data._id ? action.payload.data : el)]
       return res
     }
-    default : 
+    default :
       return state
   }
 }

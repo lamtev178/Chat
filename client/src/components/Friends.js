@@ -20,7 +20,6 @@ function Friends({addSubscription}){
   function handeChange(e){
     setSearch(e.target.value)
   }
-  console.log(users);
   const subscriptions = useSelector(state => state.isAuth.user.subscriptions)
   return(
     <>
@@ -37,7 +36,6 @@ function Friends({addSubscription}){
       }) :
       <h5 style ={{marginTop:'30px'}}>Список ваших подписок пуст.</h5>) :
       login.map(user =>{
-        console.log("subscriptions = "+subscriptions+",user.login = "+user.login);
         return(
             <div key={user._id} className={"justifyBetween " + (theme ? "box-dark " : "box-light ")}>
               <Link to={`/users/${user.login}`} key={user._id} style={{textDecoration:'none'}}>

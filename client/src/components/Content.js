@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
+import {getChats, loginAuth, createChat,createSub} from '../redux/ActionCreator'
 import Topics from './Topics'
 import Chat from './Chat'
 import Messages from './Messages'
@@ -28,82 +29,17 @@ function Content({handleSendMess}){
   )
   useEffect(()=>setCheckedState(new Array(myUser.subscriptions.length).fill(false)),[myUser])
 
-  async function getChats(){
-    try{
-      const response = await axios.get('http://localhost:8000/messenger/chat',{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
-      dispatch({type:"GET_CHATS", payload: response.data})
-      console.log(response);
-    }
-    catch(error){
-      alert(error.response.data.message)
-    }
-  }
   async function newChat(users){
-    let date = (new Date() + "").split(' ')
-    date = date[2] + " " + date[1] + " " + date[4].slice(0,5)
-    let message = {
-      message: mess,
-      date: date,
-      author: myUser.login
-    }
-    if(mess==='' ||  chatName===''){
-      alert("Введите название беседы и сообщение")
-      return
-    }
-    if(users.length === 0){
-      alert("У вас нет подписок")
-      setToggle(false)
-      return
-    }
-    const res=[]
-    if(typeof(users[0])==="boolean"){
-      if(users.indexOf(true) === -1){
-        alert("At least one user")
-        return
-      } else {
-        for(let i =0; i < users.length; i++){
-          if(users[i])
-            res.push(myUser.subscriptions[i])
-        }
-      }
-    }
-    try{
-      const response = await axios.post('http://localhost:8000/messenger/chat', {
-        users: res.length > 0 ? res : users,
-        messages: [message],
-        chatName: (chatName.length === 0 ? '' : chatName)
-      },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }});
-      dispatch({type: "CREATE_CHAT", payload: response.data.data})
-      console.log(response);
-      setMess('')
-      setCheckedState(new Array(myUser.subscriptions.length).fill(false))
-      setChatName('')
-      redirect(`/Messages/chat/${response.data.data.chat}`)
-    }catch(error){
-      alert(error.response.data.message)
-    }
+    dispatch(createChat(users, mess, chatName, redirect, myUser, setToggle))
+    setMess('')
+    setCheckedState(new Array(myUser.subscriptions.length).fill(false))
+    setChatName('')
   }
   async function Login(log, pass){
-    try {
-      const response = await axios.post('http://localhost:8000/auth/login', {
-        login: login ? login : log,
-        password: password ? password : pass
-      });
-      console.log(response);
-      localStorage.setItem('user', (login ? login : log) + ' ' + (password ? password : pass))
-      localStorage.setItem('Token', response.data.token)
-      redirect("/topics")
-      dispatch({type:"LOGIN_IN", payload:response.data})
-      setLogin('')
-      setPassword('')
-      getChats()
-    } catch (error) {
-      let err = ''
-      error.response.data.message ?
-      alert(error.response.data.message) :
-      (error.response.data.errors.map(er => err += er.msg))
-      alert(err)
-    }
+    dispatch(loginAuth(log, pass, redirect, login, password))
+    setLogin('')
+    setPassword('')
+    dispatch(getChats())
   }
   useEffect(()=>{
     if(localStorage.user){
@@ -121,17 +57,7 @@ function Content({handleSendMess}){
   }
   async function addSubscription({login, subscription}){
     setIsLoading(true)
-    console.log(login, subscription + "----------------------------s");
-    try {
-    const response = await axios.post('http://localhost:8000/auth/addsub',{
-      login:login,
-      subscription:subscription
-    })
-    dispatch({type: "ADD_SUB", payload: subscription})
-    console.log(response);
-    } catch (error) {
-        alert(error.response.data.message)
-    }
+    dispatch(createSub(login, subscription))
     setIsLoading(false)
   }
   return(
