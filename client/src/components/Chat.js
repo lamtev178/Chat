@@ -1,5 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
+import {sendMess, messReaded} from '../redux/ActionCreator'
 import {ThemeContext} from '../App'
 import {useParams} from 'react-router-dom';
 import MyInput from './UI/Input/MyInput';
@@ -14,44 +15,16 @@ function Chat({handleSendMess}){
   const chat = useSelector(state => state.chats.find((ch) => ch.chat === chatID)) || []
   const {theme} = useContext(ThemeContext)
   async function hanleSubmit(){
-    let date = (new Date() + "").split(' ')
-    date = date[2] + " " + date[1] + " " + date[4].slice(0,5)
-    try{
-      const  response = await axios.post('http://localhost:8000/messenger/message', {
-          message: {
-            message: message,
-            date: date
-          },
-          chat: chatID
-        },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }});
-        console.log(response.data.data);
-        dispatch({type: "POST_MESSAGE", payload: {data : response.data.data}})
-    } catch (error) {
-      alert(error.response.data.message)
-    }
-    handleSendMess({
-          message: {
-            message: message,
-            date: date
-          },
-          chat: chatID})
+    dispatch(sendMess(message, chatID, handleSendMess))
     setMessage('')
   }
   useEffect(async()=>{
     document.documentElement.scrollIntoView(false)
-    try{
-    const response = await axios.post('http://localhost:8000/messenger/messageIsReaded',{
-      chatId:chatID
-    },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
-    console.log(response);
-    dispatch({type: "MESS_IS_READED", payload: {data : response.data.data}})
-  } catch (error) {
-    alert(error.response.data.message)
-  }
+    dispatch(messReaded(chatID))
   },[])
   return(
     <div className="chat">
-      {chat.length == 0 ? null : chat.messages.map(mess => {
+      {chat.length === 0 ? null : chat.messages.map(mess => {
         return(
           <>
         <div className={theme ? "box-dark" : "box-light"} style={{padding:'10px'}} key={mess._id}>

@@ -1,14 +1,12 @@
 import React, {useEffect} from 'react'
-import {useDispatch, useSelector } from 'react-redux';
+import {useDispatch } from 'react-redux';
 import Header from './Header'
 import Content from './Content'
 import Footer from './Footer'
 import {getUsers, getTopics, getComments} from '../redux/ActionCreator'
-const axios = require('axios').default;
 
 function Main(){
   const dispatch= useDispatch()
-  const auth = useSelector(state => state.isAuth) || []
   function getUpdates(){
     dispatch(getUsers())
     dispatch(getTopics())

@@ -4,7 +4,6 @@ import {useSelector} from 'react-redux'
 import MyInput from './UI/Input/MyInput'
 import MyButton from './UI/Button/MyButton'
 import {ThemeContext} from '../App'
-const axios = require('axios')
 
 function Friends({addSubscription}){
   const {theme} = useContext(ThemeContext)

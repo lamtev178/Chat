@@ -10,7 +10,6 @@ import Friends from './Friends'
 import Topic from './Topic'
 import LoginForm from './LoginInForm'
 import {Routes, Route} from 'react-router'
-const axios = require('axios')
 
 function Content({handleSendMess}){
   const redirect = useNavigate()
@@ -56,9 +55,7 @@ function Content({handleSendMess}){
     setCheckedState(updatedCheckedState);
   }
   async function addSubscription({login, subscription}){
-    setIsLoading(true)
-    dispatch(createSub(login, subscription))
-    setIsLoading(false)
+    dispatch(createSub(login, subscription, setIsLoading))
   }
   return(
     <Routes>

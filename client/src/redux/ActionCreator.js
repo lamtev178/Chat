@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 
-export const addUsers = (users) =>{
+const addUsers = (users) =>{
   return{
     type:"GET_USERS",
     payload: users
@@ -15,7 +15,7 @@ export const getUsers = () => async (dispatch) => {
     alert(error.response.data.message)
   }
 }
-export const addTopics = (topics) =>{
+const addTopics = (topics) =>{
   return{
     type:"GET_TOPICS",
     payload: topics
@@ -29,7 +29,7 @@ export const getTopics = () => async (dispatch) => {
     alert(error.response.data.message)
   }
 }
-export const addComments = (comments) =>{
+const addComments = (comments) =>{
   return{
     type:"GET_COMMENTS",
     payload: comments
@@ -43,7 +43,7 @@ export const getComments = () => async (dispatch) => {
     alert(error.response.data.message)
   }
 }
-export const addChats = (chats) =>{
+const addChats = (chats) =>{
   return{
     type:"GET_CHATS",
     payload: chats
@@ -58,7 +58,7 @@ export const getChats = () => async (dispatch) => {
     alert(error.response.data.message)
   }
 }
-export const addChat = (chat) =>{
+const addChat = (chat) =>{
   return{
     type:"CREATE_CHAT",
     payload: chat
@@ -105,7 +105,7 @@ export const createChat = (users, mess, chatName, redirect, myUser, setToggle) =
     alert(error.response.data.message)
   }
 }
-export const loginIn = (user) =>{
+const loginIn = (user) =>{
   return{
     type:"LOGIN_IN",
     payload: user
@@ -129,13 +129,14 @@ export const loginAuth = (log, pass, redirect, login, password) => async (dispat
     alert(err)
   }
 }
-export const addSub = (sub) =>{
+const addSub = (sub) =>{
   return{
     type:"ADD_SUB",
     payload: sub
   }
 }
-export const createSub = (login, subscription) => async (dispatch) => {
+export const createSub = (login, subscription, setIsLoading) => async (dispatch) => {
+  setIsLoading(true)
   try {
   const response = await axios.post('http://localhost:8000/auth/addsub',{
     login:login,
@@ -144,5 +145,50 @@ export const createSub = (login, subscription) => async (dispatch) => {
   dispatch(addSub(subscription))
   } catch (error) {
       alert(error.response.data.message)
+  }
+  setIsLoading(false)
+}
+const postMess = (mess)=>{
+  return{
+    type:"POST_MESSAGE",
+    payload:{data:mess}
+  }
+}
+export const sendMess = (message, chatID, handleSendMess) => async (dispatch)=>{
+  let date = (new Date() + "").split(' ')
+  date = date[2] + " " + date[1] + " " + date[4].slice(0,5)
+  try{
+    const  response = await axios.post('http://localhost:8000/messenger/message', {
+        message: {
+          message: message,
+          date: date
+        },
+        chat: chatID
+      },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }});
+      dispatch(postMess(response.data.data))
+  } catch (error) {
+    alert(error.response.data.message)
+  }
+  handleSendMess({
+    message: {
+      message: message,
+        date: date
+      },
+    chat: chatID})
+}
+const messIsReaded = (mess)=>{
+  return{
+    type:"MESS_IS_READED",
+    payload:{data:mess}
+  }
+}
+export const messReaded = (chatID) => async (dispatch) => {
+  try{
+    const response = await axios.post('http://localhost:8000/messenger/messageIsReaded',{
+      chatId:chatID
+    },{headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
+    dispatch(messIsReaded(response.data.data))
+  } catch (error) {
+    alert(error.response.data.message)
   }
 }
