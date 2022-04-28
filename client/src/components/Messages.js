@@ -24,28 +24,29 @@ function Messages({chatName, setChatName, mess, setMess, setNewChatUsers, newCha
         <MyButton onClick={()=>setToggle(true)}>Создать беседу</MyButton>
       </div>
       {chats.length === 0 ? "У вас пока нет сообщений..." : chats.map(chat => {
+        const lastMessage = chat.messages[chat.messages.length - 1]
         return(
           <Link to={`chat/${chat.chat}`} style={{textDecoration:'none'}} key={chat.chat}>
             <div className={theme ? "box-dark box-darkHover" : "box-light box-lightHover"}>
               <div className="messages">
                 <h3 style={{display:"inline"}}>{ chat.chatName==='' ? chat.users[Number(!chat.users.indexOf(login))] : chat.chatName} </h3>
               </div>
-              {chat.messages.length === 0 ? null :
+              {chat.messages.length === 0 ? null : ( lastMessage.isSystemMess ? <p>{lastMessage.message}</p> :
               <div className={"comments-info " +
-                (chat.messages[chat.messages.length - 1].isReaded ?
+                (lastMessage.isReaded ?
                 "" :
                 (theme ? "message-not-readed-dark" : "message-not-readed-light"))}
                 style={{fontSize:'16px'}}
               >
                 <p>
-                  {chat.messages[chat.messages.length - 1].message}
+                  {lastMessage.message}
                 </p>
                 <p>
-                  <BiUser />{chat.messages[chat.messages.length - 1].author}
+                  <BiUser />{lastMessage.author}
                 </p>
-                <p>{chat.messages[chat.messages.length - 1].date}</p>
+                <p>{lastMessage.date}</p>
               </div>
-              }
+            )}
             </div>
           </Link>
         )

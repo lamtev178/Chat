@@ -8,7 +8,8 @@ const Chat = new Schema({
     author : {type : String, required:true},
     isReaded : {type : Boolean, default:false},
     message : {type : String, required:true},
-    date : {type : String, required:true}
+    date : {type : String, required:true},
+    isSystemMess : {type : Boolean, default : false}
   }]
 })
 

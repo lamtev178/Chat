@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
-import {sendMess, messReaded, delUser, addUsersToChat, delChat} from '../redux/ActionCreator'
+import {sendMess, messReaded, delUser, addUsersToChat, delChat, getListOfCheckedUsers} from '../redux/ActionCreator'
 import {ThemeContext} from '../App'
 import {useParams, useNavigate} from 'react-router-dom';
 import MyInput from './UI/Input/MyInput';
@@ -24,7 +24,7 @@ function Chat({handleSendMess, handleChecked, checkedState}){
   const myUser = useSelector(state => state.isAuth.user) || []
   const subs = myUser.subscriptions.filter(user => chat.users.indexOf(user) === -1 )
   const chatCreator = chat.users[chat.users.length-1]===myUser.login ? true : false;
-console.log(chat);
+  console.log("CHAT__DID_MOUNT");
   const {theme} = useContext(ThemeContext)
   const [isLoading, setIsLoading] = useState(
     new Array(subs.length).fill(false)
@@ -38,16 +38,22 @@ console.log(chat);
     dispatch(sendMess(message, chatID, handleSendMess))
     setMessage('')
   }
-  function delUserFromChat(user, index){
+  async function addUsers(){
+    await dispatch(addUsersToChat(chatID, checkedState, subs, setToggle))
+    let res = getListOfCheckedUsers(checkedState, subs)
+    await dispatch(sendMess(`${myUser.login} добавил в чат ${[...res]}`, chatID, handleSendMess, true))
+  }
+  async function delUserFromChat(user, index){
     const newLoading = isLoading.map((l, position) =>
       position === index ? !l : l
     )
     setIsLoading(newLoading)
-    dispatch(delUser(chat.chat, user, redirect))
+    await dispatch(delUser(chat.chat, user, redirect))
     const finishLoading = isLoading.map((l, position) =>
       position === index ? !l : l
     )
     setIsLoading(finishLoading)
+    await dispatch(sendMess(`${myUser.login} исключил ${user} из чата`, chatID, handleSendMess, true))
   }
   let content
   if(active==="users"){
@@ -76,7 +82,7 @@ console.log(chat);
       <>
         <AddUsersToChat allSubs={subs} handleChecked={handleChecked} checkedState={checkedState}/>
         { subs.length === 0 ? null :
-          <MyButton onClick ={() => dispatch(addUsersToChat(chatID, checkedState, subs, setToggle))}>
+          <MyButton onClick ={() => addUsers(chatID, checkedState, subs, setToggle)}>
             Добавить
           </MyButton>
         }
@@ -91,10 +97,10 @@ console.log(chat);
     ):(
       <h3>Удалить чат может только создатель</h3>
     ))
-  useEffect(async()=>{
-    document.documentElement.scrollIntoView(false)
-    dispatch(messReaded(chatID))
-  },[])
+  // useEffect(async()=>{
+  //   document.documentElement.scrollIntoView(false)
+  //   dispatch(messReaded(chatID))
+  // },[])
   return(
     <>
       <div className={!theme ? "chat-ligth" : "chat-dark"}>

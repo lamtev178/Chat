@@ -6,6 +6,10 @@ function Message({mess}){
   const {theme} = useContext(ThemeContext)
   return(
     <>
+    { mess.isSystemMess===true ?
+      <p>{mess.message}</p>
+      :
+    <>
       <div className={theme ? "box-dark" : "box-light"} style={{padding:'10px'}} >
         <p style={{wordBreak: "break-all", fontSize:'20px', marginBottom:"0"}} className={(mess.isReaded ? "" :
           (theme ? "message-not-readed-dark" : "message-not-readed-light"))}>{mess.message}</p>
@@ -16,6 +20,8 @@ function Message({mess}){
         </p>
         <p>{mess.date}</p>
       </div>
+    </>
+    }
     </>
   )
 }

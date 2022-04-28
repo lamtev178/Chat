@@ -21,7 +21,7 @@ export const chatsReduser = (state=[],action)=>{
       return res
     }
     case "ADD_USERS_TO_CHAT" :{
-      let res = [...state.map(chat => chat.chat === action.payload.chat ? {...chat, users:chat.users.concat([...action.payload.users])}  : chat )]
+      let res = [...state.map(chat => chat.chat === action.payload.chat ? {...chat, users:action.payload.users.concat(chat.users)}  : chat )]
       return res
     }
     default :
