@@ -216,3 +216,54 @@ export const delUser = (chat, user, redirect) => async (dispatch) => {
     alert(error.response.data.message)
   }
 }
+
+const addUserDispatch = (res, chatId) => {
+  return{
+    type : "ADD_USERS_TO_CHAT",
+    payload : {users : res, chat : chatId}
+  }
+}
+
+export const addUsersToChat = (chat, users, subs, setToggle) => async (dispatch) => {
+  if(users.length === 0){
+    alert("У вас нет подписок")
+    setToggle(false)
+    return
+  }
+  const res=[]
+  if(typeof(users[0])==="boolean"){
+    if(users.indexOf(true) === -1){
+      alert("At least one user")
+      return
+    } else {
+      for(let i =0; i < users.length; i++){
+        if(users[i])
+          res.push(subs[i])
+      }
+    }
+  }
+  try{
+    const response = await axios.put('http://localhost:8000/messenger/chat/',
+    {
+      users: res,
+      chatId : chat
+    },
+    {headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
+    dispatch(addUserDispatch(res, chat))
+  }catch(error){
+    alert(error.response.data.message)
+  }
+}
+export const delChat = (chatId, redirect) => async (dispatch) => {
+  try{
+    const response = await axios.delete(`http://localhost:8000/messenger/chat/${chatId}`,
+    {headers: { "Authorization": 'Bearer '+localStorage.getItem('Token') }})
+    console.log(response);
+    if(response.data.message === "complete"){
+      redirect("/Messages")
+      dispatch(delChatDispatch(chatId))
+    } else alert("Error!")
+  }catch(error){
+    alert(error.response.data.message)
+  }
+}

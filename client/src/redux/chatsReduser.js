@@ -20,6 +20,10 @@ export const chatsReduser = (state=[],action)=>{
       let res = [...state.filter(chat => chat.chat !== action.payload)]
       return res
     }
+    case "ADD_USERS_TO_CHAT" :{
+      let res = [...state.map(chat => chat.chat === action.payload.chat ? {...chat, users:chat.users.concat([...action.payload.users])}  : chat )]
+      return res
+    }
     default :
       return state
   }

@@ -4,15 +4,16 @@ import MyModal from './UI/Modal/MyModal'
 import ModalHeader from './UI/Modal/ModalHeader'
 import ModalFooter from './UI/Modal/ModalFooter'
 import ModalBody from './UI/Modal/ModalBody'
+import AddUsersToChat from './AddUsersToChat'
 import {ThemeContext} from '../App'
 import {Link} from 'react-router-dom'
 import MyButton from './UI/Button/MyButton';
 import MyInput from './UI/Input/MyInput'
 import { BiUser } from 'react-icons/bi';
 
-function Messages({chatName, setChatName, mess, setMess, setNewChatUsers, newChat, allSubs, checkedState, handleChecked}){
+function Messages({chatName, setChatName, mess, setMess, setNewChatUsers, newChat, checkedState, handleChecked}){
   const [toggle, setToggle] = useState(false)
-
+  const subs = useSelector(state => state.isAuth.user.subscriptions)
   const chats = useSelector(state => state.chats) || []
   const login = useSelector(state => state.isAuth.user.login) || []
   const {theme} = useContext(ThemeContext)
@@ -57,19 +58,7 @@ function Messages({chatName, setChatName, mess, setMess, setNewChatUsers, newCha
         <ModalBody>
           <MyInput title="Название беседы" value={chatName} onChange={(e)=>setChatName(e.target.value)}/>
           <MyInput title="Сообщение" value={mess} onChange={(e)=>setMess(e.target.value)}/>
-          <div className="users-list">
-          <h2>Добавить участников</h2>
-            {allSubs.map((sub, index) =>{
-              return(
-                <div className="justifyLeft" key={sub}>
-                  <h3 style={{textAlign:"center", marginBottom:"0"}}>
-                    {sub}
-                  </h3>
-                  <input type="checkbox" checked={checkedState[index]} onChange={()=>handleChecked(index)} style={{marginLeft:"5px"}}/>
-                </div>
-              )
-            })}
-          </div>
+          <AddUsersToChat allSubs={subs} checkedState={checkedState} handleChecked={handleChecked}/>
         </ModalBody>
         <ModalFooter>
           <MyButton onClick={()=>newChat(checkedState)}>
