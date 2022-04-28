@@ -20,6 +20,16 @@ class messengerController {
       res.status(400)
     }
   }
+  async delChat(req, res){
+    try{
+      const {chatId} = req.params
+      await Chat.deleteOne({chat:chatId})
+      res.json({message:'complete'})
+    }catch(error){
+      console.log(error)
+      res.status(400)
+    }
+  }
   async delUserFromChat(req,res){
     try{
       const {chatId, userId} = req.params
@@ -28,8 +38,10 @@ class messengerController {
         chat.users = chat.users.filter(user => user !== userId)
         if(chat.users.length === 0){
           Chat.deleteOne({chat:chatId}, function (err) {
-            if (err)
+            if (err){
               console.log("err while deleted!!!!!");
+              return
+            }
             }
           )
           res.json({message:'complete', data:false})
@@ -68,7 +80,7 @@ class messengerController {
     try{
       const {chatId, users} = req.body
       const updatedChat =  await Chat.findOne({chat:chatId})
-      updatedChat.users = updatedChat.users.concat(users)
+      updatedChat.users = users.concat(updatedChat.users)
       await updatedChat.save()
         .then(data=>
           res.json({message:'complete', data:data})

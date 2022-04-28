@@ -5,6 +5,7 @@ const userMiddleware = require('../userMiddleware')
 
 router.post('/message', userMiddleware, messengerController.sendMessege)
 router.post('/chat', userMiddleware, messengerController.createChat)
+router.delete('/chat/:chatId', userMiddleware, messengerController.delChat)
 router.delete('/chat/:chatId/:userId', userMiddleware, messengerController.delUserFromChat)
 router.put('/chat', userMiddleware, messengerController.addUserToChat)
 router.get('/chat', userMiddleware, messengerController.getChat)
