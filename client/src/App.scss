@@ -5,6 +5,17 @@ $gray : #c5cdd5;
 $darkgray : #6e757e;
 $chatligth : #ededed;
 $chatdark : #0c273e;
+@mixin link-underline {
+  transform:translateX(-101%);
+  content: "";
+  display: block;
+  width: 100%;
+  height:3px;
+  position: relative;
+  bottom:0;
+  left:0;
+  transition:0.2s linear;
+}
 .app{
   position: relative;
   min-height:100vh;
@@ -38,9 +49,10 @@ $chatdark : #0c273e;
   justify-content:left;
   align-items: center;
 }
-.col a {
-  color: white;
-  text-decoration: none;
+.justifyAround{
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
 }
 .nav-item a,
 .navbar-text a {
@@ -142,16 +154,8 @@ $chatdark : #0c273e;
   transform: translateX(0);
 }
 .navHeader a::after{
-  transform:translateX(-101%);
-  content: "";
-  display: block;
-  width: 100%;
-  height:3px;
+  @include link-underline;
   background-color:white;
-  position: relative;
-  bottom:0;
-  left:0;
-  transition:0.2s linear;
 }
 .navHeader a{
   overflow:hidden;
@@ -164,6 +168,32 @@ $chatdark : #0c273e;
 }
 .Mt-5{
   margin-top: 3rem !important;
+}
+.footer, .footerLight{
+  .col a {
+    color: white;
+    text-decoration: none;
+  }
+}
+.modalHeader{
+  width: 100%;
+  h3{
+    overflow:hidden;
+    cursor: pointer;
+    height: 100%;
+    text-align: center;
+    margin-bottom: 0;
+  }
+  h3:after{
+    @include link-underline;
+    background-color:black;
+  }
+  h3:hover::after{
+    transform: translateX(0);
+  }
+  h3.active::after {
+    transform: translateX(0);
+  }
 }
 .footer, .navHeader{
   transition: linear 0.2s;
