@@ -1,6 +1,7 @@
+require("dotenv").config()
 const express = require('express')
 const mongoose = require('mongoose')
-const PORT = process.env.PORT || '8000'
+const PORT = process.env.PORT
 const authRouter = require('./routes/authRouter')
 const topicsRouter = require('./routes/topicsRouter')
 const messengerRouter = require('./routes/messengerRouter')
@@ -19,7 +20,7 @@ app.use('/alltopics', topicsRouter)
 app.use('/messenger', messengerRouter)
 const server = http.createServer(app);
 const wss = new WebSocket.Server ({server: server, path:"/ws"});
-
+console.log(PORT);
 wss.on('connection', (ws, req) => {
   const user = {user:wsUserVerify(req, users), socket:ws}
   if(user.user=="Error")
@@ -51,7 +52,10 @@ wss.on('connection', (ws, req) => {
 });
 
 const start = async () =>{
-  await mongoose.connect('mongodb+srv://lamtev178:qwerty123@cluster0.u8xgn.mongodb.net/Chat?retryWrites=true&w=majority')
+  await mongoose.connect(process.env.DB_URL,{
+    useNewUrlParser: true,
+    useUnifiedTopology : true
+  })
   server.listen(PORT, ()=> console.log('Server started on port ', PORT))
 }
 
