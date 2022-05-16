@@ -34,8 +34,8 @@ function Main(){
   ,[])
  return(
   <>
-    <Header />
-    <div className='Container' style={{paddingTop:"100px"}}>
+    <div className='Container'>
+      <Header />
       <Content handleSendMess={handleSendMess}/>
     </div>
     <Footer />

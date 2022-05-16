@@ -58,15 +58,19 @@ function Content({handleSendMess}){
     dispatch(createSub(login, subscription, setIsLoading))
   }
   return(
-    <Routes>
-      <Route path='/topics' element={<Topics />} />
-      <Route path='/Messages' element={<Messages checkedState={checkedState} handleChecked={handleChecked} isLoading={isLoading} setMess={setMess} mess={mess} chatName={chatName} setChatName={setChatName} newChat={newChat}/>} />
-      <Route path='/users/:login' element={<Account isLoading={isLoading} mess={mess} setMess={setMess} myUser={myUser} addSubscription={addSubscription} newChat={newChat}/>} />
-      <Route path='/Friends' element={<Friends addSubscription={addSubscription}/>} />
-      <Route path='/Messages/chat/:chatID' element={<Chat handleSendMess={handleSendMess} handleChecked={handleChecked} checkedState={checkedState}/>}/>
-      <Route path='/:topicID' element={<Topic />} />
-      <Route path='/' element={<LoginForm toggle={toggle} setToggle={setToggle} toggleModal={toggleModal} Login={Login} login={login} setLogin={setLogin} setPassword={setPassword} password={password}/>} />
-    </Routes>
+    <div className="routesPadding">
+      <div className="content">
+        <Routes>
+          <Route path='/topics' element={<Topics />} />
+          <Route path='/Messages' element={<Messages checkedState={checkedState} handleChecked={handleChecked} isLoading={isLoading} setMess={setMess} mess={mess} chatName={chatName} setChatName={setChatName} newChat={newChat}/>} />
+          <Route path='/users/:login' element={<Account isLoading={isLoading} mess={mess} setMess={setMess} myUser={myUser} addSubscription={addSubscription} newChat={newChat}/>} />
+          <Route path='/Friends' element={<Friends addSubscription={addSubscription}/>} />
+          <Route path='/Messages/chat/:chatID' element={<Chat handleSendMess={handleSendMess} handleChecked={handleChecked} checkedState={checkedState}/>}/>
+          <Route path='/:topicID' element={<Topic />} />
+          <Route path='/' element={<LoginForm toggle={toggle} setToggle={setToggle} toggleModal={toggleModal} Login={Login} login={login} setLogin={setLogin} setPassword={setPassword} password={password}/>} />
+        </Routes>
+      </div>
+    </div>
   )
 }
 export default Content

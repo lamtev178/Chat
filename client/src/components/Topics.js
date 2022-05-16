@@ -21,7 +21,7 @@ function Topics(){
   }
   return(
     <>
-      <MyInput dark={theme ? true : null} value={search} title="Поиск темы" onChange={handeChange} />
+      <MyInput style={{width:"60%", fontSize:"13px", borderTop:"1px solid #f8f9fa"}} isTitle={false} dark={theme ? true : null} value={search} title="Поиск темы" onChange={handeChange} />
       {topicsSorted.map(topic => {
         return (
           <Link to={`/${topic._id}`} key={topic._id} style={{textDecoration:'none'}}>
@@ -29,8 +29,8 @@ function Topics(){
               <h3>{topic.title}</h3>
               <div className="comments-info">
                 <p style={{wordBreak: "break-all"}}>{topic.description}</p>
-                <p style={{minWidth:'180px'}}><BiChat />Обсуждения : {comments.filter(c => topic._id === c.postId).length}</p>
-              </div>  
+                <p><BiChat />Обсуждения : {comments.filter(c => topic._id === c.postId).length}</p>
+              </div>
             </div>
           </Link>
         )

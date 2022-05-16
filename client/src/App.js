@@ -7,7 +7,7 @@ function App() {
   const [theme, setTheme] = useState(false)
   return (
     <ThemeContext.Provider value={{theme, setTheme}}>
-      <div className={(theme ? 'app' : "ligth")}>
+      <div className={(theme ? 'app' : "light")}>
         <Main />
       </div>
     </ThemeContext.Provider>

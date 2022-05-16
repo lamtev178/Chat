@@ -12,7 +12,7 @@ function Topic() {
   const {theme} = useContext(ThemeContext)
   const [comment, setComment] = useState('')
   const dispatch = useDispatch()
-  const {topicID} = useParams() 
+  const {topicID} = useParams()
   const topic = useSelector(state => state.topics.filter(t => t._id === topicID))[0]
   const comments = useSelector(state => state.comments.filter(c => c.postId === topicID))
   const login = useSelector(state => state.isAuth.user.login)
@@ -58,10 +58,10 @@ function Topic() {
           </div>
         )
     })}
-    <MyInput dark={theme ? true : null} textarea value={comment} style={{height:'250px'}} title='Ваш комментарий' onChange={e => setComment(e.target.value)} />
-    <MyButton isAuth={isAuth}  onClick={handleSubmitMessage} style={{marginTop:'30px'}}>Отправить</MyButton>
+    <MyInput style={{width:"80%", height:"60px", margin:"auto"}} dark={theme ? true : null} textarea value={comment} title='Ваш комментарий' onChange={e => setComment(e.target.value)} />
+    <MyButton isAuth={isAuth}  onClick={handleSubmitMessage} style={{marginTop:'15px'}}>Отправить</MyButton>
     </div>
   );
 }
 
-export default Topic; 
+export default Topic;

@@ -1,25 +1,26 @@
-$blue : #004078;
-$lightblue : #8cbbff;
-$darkblue : #094a83;
-$gray : #c5cdd5;
-$darkgray : #6e757e;
-$chatligth : #ededed;
-$chatdark : #0c273e;
+$green: #5dcad1;
+$darkgreen: #1c2143;
+$darktransparent: rgba(44,	120,	115, 0.9);
+$box :#004445;
+$footer: #021c1e;
+$appback : #6fb98f;
 @mixin link-underline {
   transform:translateX(-101%);
   content: "";
   display: block;
   width: 100%;
-  height:3px;
+  height:2px;
   position: relative;
   bottom:0;
   left:0;
   transition:0.2s linear;
 }
+.app, .light{
+  background: url('./img/back2.jpg')
+}
 .app{
   position: relative;
   min-height:100vh;
-  background-color:#020a10;
   color:white;
   transition: linear 0.2s;
 }
@@ -37,7 +38,6 @@ $chatdark : #0c273e;
   position: relative;
   transition: linear 0.2s;
   min-height:100vh;
-  background-color:#fff;
   color:black;
 }
 .justifyBetween{
@@ -77,14 +77,17 @@ $chatdark : #0c273e;
   display: flex;
   justify-content: space-between;
 }
+.comments-info p{
+  margin: 0;
+}
 .topic-info p{
-  padding-right: 20px;
+  padding: 0;
   position: absolute;
   right: 0;
   bottom: 0;
 }
 .Container{
-  width: 100%;
+  width: 70%;
   margin-right: auto;
   margin-left: auto;
 }
@@ -106,7 +109,7 @@ $chatdark : #0c273e;
   transform: translateX(-100%);
   top: 0;
   height:100vh;
-  width: 400px;
+  width: 300px;
   transition: linear 0.2s;
   z-index: 1055;
   background-color: white;
@@ -116,8 +119,16 @@ $chatdark : #0c273e;
 }
 .siderButton{
   position: fixed;
-  right: 50px;
-  bottom:40px;
+  right: 30px;
+  bottom:20px;
+}
+.loginFormButtons{
+  margin-top:20px;
+  display:flex;
+  justify-content:space-between;
+  button {
+    margin: 0 60px;
+  }
 }
 .box-dark, .box-light{
   border-radius: 0.25rem;
@@ -127,27 +138,33 @@ $chatdark : #0c273e;
 }
 .box-dark{
   color : white;
-  background-color: $blue;
+  background-color: $box;
 }
 .box-light{
-  background-color : $gray;
-  color:black;
+  background-color : $box;
+  color:white;
 }
-.box-darkHover:hover {
+.box-lightHover:hover {
   box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5),
     -2px -2px 10px rgba(255, 255, 255, 0.5);
 }
-.box-lightHover:hover{
-  box-shadow: 0 0 6px 0.25rem rgba(0, 0, 0, 0.25);
-}
+// .box-darkHover:hover {
+//   box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5),
+//     -2px -2px 10px rgba(255, 255, 255, 0.5);
+// }
+// .box-lightHover:hover{
+//   box-shadow: 0 0 6px 0.25rem rgba(0, 0, 0, 0.25);
+// }
 .navHeader .Container {
   display:flex;
   justify-content: space-around;
 }
 .navHeader{
   position: fixed;
-  top:0;
-  width: 100%;
+  top:-1px;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid white;
+  width: 70%;
   height: 100px;
 }
 .navHeader a:hover::after {
@@ -197,11 +214,11 @@ $chatdark : #0c273e;
 }
 .footer, .navHeader{
   transition: linear 0.2s;
-  background-color: #152c4c;
+  background-color: $footer;
 }
 .footerLight, .navHeaderLight{
   transition: linear 0.2s;
-  background-color: $darkgray;
+  background-color: $footer;
 }
 .toggleTrackThumb {
   background-color: #fafafa;
@@ -251,13 +268,22 @@ $chatdark : #0c273e;
 .toggle:hover .toggleTrackThumb{
   box-shadow: 0 0 2px 3px #4c80f9;
 }
+.content{
+  background-color:$darktransparent;
+  border-radius: 8px;
+  padding: 10px;
+}
+.routesPadding{
+  padding: 95px 0 30px 0;
+  min-height: 70vh;
+}
 .toggle {
   cursor: pointer;
   position: absolute;
   user-select: none;
   width: 50px;
-  right: 30px;
-  top:65px;
+  left: 30px;
+  top:9px;
 }
 .message-not-readed-dark, .message-not-readed-light{
   border-radius: 0.25rem;
@@ -265,10 +291,10 @@ $chatdark : #0c273e;
   transition: linear 0.2s;
 }
 .message-not-readed-dark {
-  background-color: #164caf;
+  background-color: $darkgreen;
 }
 .message-not-readed-light{
-  background-color: #abb2bf;
+  background-color: $darkgreen;
 }
 .X:hover{
   transform: rotate(180deg)
@@ -296,30 +322,19 @@ $chatdark : #0c273e;
 }
 .chat-header-ligth, .chat-header-dark{
   position:sticky;
-  top:75px;
+  top:41px;
   width: 100%;
   padding: 15px;
-}
-.chat-header-ligth{
-    background-color: $chatligth;
-}
-.chat-header-dark{
-  background-color: $chatdark;
+  box-sizing: border-box;
+  background-color: rgb(44,	120,	115);
 }
 .sendMessForm{
-  background-color: $chatligth;
-}
-.sendMessForm-dark{
-  background-color: $chatdark;
+  box-sizing: border-box;
+  background-color: rgb(44,	120,	115);
 }
 .chat-ligth, .chat-dark{
   padding:30px 30px 0 30px;
-}
-.chat-ligth{
-  background-color: $chatligth;
-}
-.chat-dark{
-  background-color: $chatdark;
+  color: white;
 }
 .exit{
   position: absolute;
@@ -329,46 +344,41 @@ $chatdark : #0c273e;
   color: white;
 }
 @media (min-width: 576px) {
-  .Container {
-    max-width: 540px;
-  }
+
 }
 @media (min-width: 992px) {
-  .Container {
-    max-width: 960px;
-  }
+
 }
 @media (min-width: 1200px) {
   .Container {
-    max-width: 1140px;
-    font-size: 20px!important;
+    font-size: 16px!important;
   }
   .exit{
-    top:5px;
+    top:2px;
   }
   .toggle{
-    top:40px;
+    top:8px;
   }
   h3{
-  font-size: 18px!important;
+  font-size: 15px!important;
   }
   h2{
-  font-size: 20px!important;
+  font-size: 17px!important;
   }
   h1{
-  font-size: 25px!important;
+  font-size: 20px!important;
   }
   p{
-    font-size: 15px!important;
+    font-size: 13px!important;
   }
   .navHeader {
-    height: 75px;
+    height: 40px;
   }
   .box-dark, .box-light {
-    padding: 15px;
+    padding: 10px;
   }
   .navHeader a {
-    padding-top: 20px;
+    padding-top: 9px;
   }
 }
 @media (min-width: 1400px) {

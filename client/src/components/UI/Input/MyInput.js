@@ -1,10 +1,12 @@
 import React from 'react'
 import classes from './MyInput.module.css'
 
-function MyInput({title, type, value, dark, onChange,...props}){
+function MyInput({title, type, value, dark, onChange, isTitle,...props}){
   return(
     <>
-    <h3>{title}</h3>
+    {isTitle ?
+    <h3>{title}</h3> :
+    null }
     {props.textarea ?
     <textarea
       style={props.style}
@@ -14,6 +16,7 @@ function MyInput({title, type, value, dark, onChange,...props}){
       placeholder={title}
       className={classes.input + ' ' +(dark ? classes.inputDark : null)}/> :
     <input
+      style={props.style}
       type={type}
       onChange={onChange}
       value={value}

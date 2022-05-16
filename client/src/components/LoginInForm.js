@@ -7,9 +7,9 @@ function LoginForm({toggle, setToggle, toggleModal, Login, login, password, setP
 
   return(
   <div className="Container">
-    <MyInput dark type='text' value={login} onChange={(e)=>{setLogin(e.target.value)}} title='Login'/>
-    <MyInput dark type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} title='Password'/>
-    <div style={{marginTop:'20px', display:'flex', justifyContent:'space-between'}}>
+    <MyInput style={{width:"80%", margin: "auto", marginBottom:"5px"}} dark type='text' value={login} onChange={(e)=>{setLogin(e.target.value)}} title='Login'/>
+    <MyInput style={{width:"80%", margin:"auto"}} dark type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} title='Password'/>
+    <div className="loginFormButtons">
       <MyButton onClick={Login}>Login In</MyButton>
       <MyButton onClick={toggleModal}>Sign In</MyButton>
     </div>
