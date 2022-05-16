@@ -43,8 +43,8 @@ function Modal({toggleModal, toggle, setToggle}){
         Регистрация
       </ModalHeader>
       <ModalBody>
-        <MyInput value={login} type='text' onChange={e => setLogin(e.target.value)} title='login'/>
-        <MyInput value={password} type='password' onChange={e => setPassword(e.target.value)} title='password'/>
+        <MyInput style={{marginBottom:"10px"}} value={login} type='text' onChange={e => setLogin(e.target.value)} title='login'/>
+        <MyInput style={{marginBottom:"10px"}} value={password} type='password' onChange={e => setPassword(e.target.value)} title='password'/>
         <MyInput value={mail} type='text' onChange={e => setMail(e.target.value)} title='mail'/>
       </ModalBody>
       <ModalFooter>
