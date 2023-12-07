@@ -1,0 +1,17 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run dev --workspace=client & npm run dev --workspace=server2 "
+  },
+  "keywords": [],
+  "author": "",
+  "workspaces": [
+    "client",
+    "server",
+    "server2"
+  ],
+  "license": "ISC"
+}
